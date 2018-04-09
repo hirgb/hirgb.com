@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+#coding:utf-8
+
 from flask import Flask, request, make_response
 from stockfilter import *
 import json, db
