@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>WAVELAB</title>
+  <link rel="stylesheet" href="//cdn.bootcss.com/mdui/0.3.0/css/mdui.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="//cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script>
+  <script src="//cdn.bootcss.com/mdui/0.3.0/js/mdui.min.js"></script>
+  <script src="/js/z.js"></script>
+  <script>
+    if (!Z.cookie.get('loginname')) {
+      window.location.href = '/';
+    }
+  </script>
+  <style>
+    div#left-drawer {
+      border-right: solid 1px #eee
+    }
+
+    .mdui-row {
+      margin: 25px 10px;
+    }
+
+    .mdui-checkbox {
+      margin-right: 20px;
+    }
+
+    .mdui-panel-item-body .mdui-row {
+      margin: 0;
+    }
+
+    .mdui-panel-item-body .mdui-row label.mdui-radio,
+    label.mdui-checkbox {
+      padding-left: 30px;
+    }
+
+    .mdui-typo-subheading {
+      line-height: 36px
+    }
+
+    .mdui-table th i {
+      color: rgba(0, 0, 0, .4);
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .height-150 {
+      height: 200px;
+    }
+
+    .chart {
+      width: 100%;
+      height: 100%;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .edit-edit {
+      position: absolute;
+      right: 10%;
+      display: none;
+    }
+
+    .edit-del {
+      position: absolute;
+      right: 0%;
+      display: none;
+    }
+
+    .delete-favorite {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 25px;
+      width: 25px;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      display: none
+    }
+
+    #favorite .mdui-card {
+      margin: 15px 5px;
+    }
+
+    #tradedata .mdui-table-fluid {
+      box-shadow: none;
+    }
+
+    #tradedata .mdui-row a {
+      color: rgba(0, 0, 0, .54)
+    }
+
+    #stockchoose .mdui-card {
+      margin: 10px 0;
+    }
+
+    #stockchoose .mdui-card .mdui-card-content {
+      height: 120px;
+    }
+
+    #searchprogress,
+    #search-title,
+    #searchresult,
+    #search-more-btn {
+      display: none
+    }
+  </style>
+</head>
+
+<body class="mdui-theme-primary-indigo mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
+  <div id="header" class="mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme">
+      <a href="/" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down"><i class="mdui-icon material-icons">trending_up</i></a>
+      <a href="javascript:;" class="mdui-typo-title">个人中心</a>
+      <div class="mdui-toolbar-spacer"></div>
+      <div class="header-search-wrapper sideNav-lock mdui-hidden-md-down">
+        <input id="searchbox" type="text" name="Search" class="header-search-input z-depth-2" placeholder="Search stock" autocomplete="off">
+      </div>
+      <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" mdui-tooltip="{content:'即将上线'}"><i class="mdui-icon material-icons">notifications_none</i></a>
+      <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" mdui-menu="{target: '#settingMenu', covered: false}"><i class="mdui-icon material-icons">settings</i></a>
+      <ul class="mdui-menu" id="settingMenu">
+        <li class="mdui-menu-item">
+          <a id="logoutbtn" href="javascript:;" class="mdui-ripple">
+            <i class="mdui-menu-item-icon mdui-icon material-icons">power_settings_new</i>退出
+            </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="mdui-drawer mdui-hidden-sm-down" id="left-drawer">
+    <ul class="mdui-list" mdui-collapse="{accordion: false}">
+      <li class="mdui-collapse-item">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">person_outline</i>
+          <div class="mdui-list-item-content">账户概览</div>
+        </div>
+      </li>
+
+      <li class="mdui-collapse-item">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">favorite_border</i>
+          <div class="mdui-list-item-content">自选股</div>
+          <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <ul id="favoritegrouplist" class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        </ul>
+      </li>
+
+      <li class="mdui-collapse-item">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">attach_money</i>
+          <div class="mdui-list-item-content">交易数据</div>
+        </div>
+      </li>
+
+      <li class="mdui-collapse-item">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">equalizer</i>
+          <div class="mdui-list-item-content">选股策略</div>
+        </div>
+      </li>
+
+      <li class="mdui-collapse-item">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">filter_list</i>
+          <div class="mdui-list-item-content">股票筛选器</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="container" class="mdui-container-fluid">
+    <div id="acount" class="mdui-row panel">
+      <div class="mdui-row">
+        <span class="mdui-typo-title-opacity">账户名：</span><span class="mdui-typo-display-2-opacity">zhangkefei</span>
+      </div>
+    </div>
+    <div id="favorite" class="mdui-row panel"></div>
+    <div id="tradedata" class="mdui-row panel">
+      <div class="mdui-row"></div>
+    </div>
+    <div id="stockchoose" class="mdui-row panel">
+      <div class="mdui-row">
+        <label class="mdui-checkbox mdui-col-md-2">
+                <input name="" id="" type="checkbox" />
+                <i class="mdui-checkbox-icon"></i>仅在我的自选股中筛选</label>
+      </div>
+      <div class="mdui-row">
+        <div id="stockchoosepanel" class="mdui-panel mdui-panel-gapless">
+          <div class="mdui-panel-item">
+            <div class="mdui-panel-item-header">
+              <div class="mdui-panel-item-title">全部策略</div><i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-panel-item-body">
+              <div id="publicstrategy" class="mdui-row-lg-6 mdui-row-xs-2 mdui-row-sm-3"></div>
+            </div>
+          </div>
+          <div class="mdui-panel-item">
+            <div class="mdui-panel-item-header">
+              <div class="mdui-panel-item-title">收藏策略</div><i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-panel-item-body">
+              <p>暂无收藏</p>
+            </div>
+          </div>
+          <div class="mdui-panel-item">
+            <div class="mdui-panel-item-header">
+              <div class="mdui-panel-item-title">私人定制</div><i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-panel-item-body">
+              <p>暂无定制</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="searchprogress" class="mdui-row">
+        <div class="mdui-progress">
+          <div class="mdui-progress-indeterminate"></div>
+        </div>
+      </div>
+      <div class="mdui-row" id="search-title">
+        共搜索到<span id="search-count"></span>支股票
+      </div>
+      <div id="searchresult" class="mdui-row">
+      </div>
+      <div id="search-more-btn" class="mdui-row">
+        <div class="mdui-row-xs-3">
+          <div class="mdui-col"></div>
+          <div class="mdui-col"><button class="mdui-btn mdui-btn-block mdui-color-theme-accent">加载更多……</button></div>
+          <div class="mdui-col"></div>
+        </div>
+      </div>
+    </div>
+    <div id="stockfilter" class="mdui-row panel">
+      <div class="mdui-row">
+        <div class="mdui-panel mdui-panel-gapless" mdui-panel>
+          <div class="mdui-panel-item">
+            <div class="mdui-panel-item-header">
+              <div class="mdui-panel-item-title">股票特征</div><i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i></div>
+            <div class="mdui-panel-item-body">
+              <div class="mdui-row">
+                <p class="mdui-typo-subheading-opacity">根据上市公司特征、条件进行筛选。</p>
+              </div>
+              <div class="mdui-row">
+                <span class="mdui-typo-subheading mdui-col-md-2 mdui-text-right">评级（<span id="rate">4</span>星以上）</span>
+                <label class="mdui-slider mdui-slider-discrete mdui-col-md-4">
+                                <input name="filter-rate" type="range" data-contrul="rate" step="1" min="0" max="5" defaultValue="4"/>
+                            </label>
+              </div>
+              <div class="mdui-row">
+                <span class="mdui-typo-subheading mdui-col-md-2 mdui-text-right">市盈率（最低<span id="ratiolow">1</span>）</span>
+                <label class="mdui-slider mdui-slider-discrete mdui-col-md-4">
+                                <input name="filter-ratiolow" type="range" data-contrul="ratiolow" step="1" min="1" max="100" defaultValue="1"/>
+                            </label>
+                <span class="mdui-typo-subheading mdui-col-md-2 mdui-text-right">市盈率（最高<span id="ratiohigh">50</span>）</span>
+                <label class="mdui-slider mdui-slider-discrete mdui-col-md-4">
+                                <input name="filter-ratiohigh" type="range" data-contrul="ratiohigh" step="1" min="20" max="200" defaultValue="50"/>
+                            </label>
+              </div>
+              <div class="mdui-row">
+                <span class="mdui-typo-subheading mdui-col-md-2 mdui-text-right">总市值（最低<span id="marketvaluelow">50</span>亿元）</span>
+                <label class="mdui-slider mdui-slider-discrete mdui-col-md-4">
+                                <input name="filter-marketvalue" type="range" data-contrul="marketvaluelow" step="10" min="10" max="500" defaultValue="50"/>
+                            </label>
+                <span class="mdui-typo-subheading mdui-col-md-2 mdui-text-right">总市值（最高<span id="marketvaluehigh">500</span>亿元）</span>
+                <label class="mdui-slider mdui-slider-discrete mdui-col-md-4">
+                                <input name="filter-marketvalue" type="range" data-contrul="marketvaluehigh" step="10" min="100" max="5000" defaultValue="500"/>
+                            </label>
+              </div>
+            </div>
+          </div>
+          <div class="mdui-panel-item">
+            <div class="mdui-panel-item-header">
+              <div class="mdui-panel-item-title">K线特征</div><i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i></div>
+            <div class="mdui-panel-item-body">
+              <div class="mdui-row">
+                <p class="mdui-typo-subheading-opacity">根据股票价格走势进行筛选。</p>
+              </div>
+              <div class="mdui-row">
+                <div class="mdui-col-md-1"></div>
+                <label class="mdui-radio mdui-col-md-2">
+                            <input name="kline" id="" type="radio" data-contrul="kline" value="rise" />
+                            <i class="mdui-radio-icon"></i>
+                            连续<span id="pricerise">5</span>天以上上涨
+                            </label>
+                <label class="mdui-slider mdui-slider-discrete mdui-col-md-9">
+                                <input name="filter-pricerise" type="range" data-contrul="pricerise" step="1" min="3" max="30" defaultValue="5"/>
+                            </label>
+              </div>
+              <div class="mdui-row">
+                <div class="mdui-col-md-1"></div>
+                <label class="mdui-radio mdui-col-md-2">
+                            <input name="kline" id="" type="radio" data-contrul="kline" value="fall"/>
+                            <i class="mdui-radio-icon"></i>
+                            连续<span id="pricefall">5</span>天以上下跌
+                            </label>
+                <label class="mdui-slider mdui-slider-discrete mdui-col-md-9">
+                                <input name="filter-pricefall" type="range" data-contrul="pricefall" step="1" min="3" max="30" defaultValue="5"/>
+                            </label>
+              </div>
+            </div>
+          </div>
+          <div class="mdui-panel-item">
+            <div class="mdui-panel-item-header">
+              <div class="mdui-panel-item-title">MACD特征</div><i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i></div>
+            <div class="mdui-panel-item-body">
+              <div class="mdui-row">
+                <p class="mdui-typo-subheading-opacity">根据股票MACD指标进行筛选。</p>
+              </div>
+              <div class="mdui-row">
+                <div class="mdui-col-md-1"></div>
+                <label class="mdui-radio mdui-col-md-2">
+                            <input name="macd" id="" type="radio" data-contrul="macd" value="up"/>
+                            <i class="mdui-radio-icon"></i>
+                            出现金叉
+                            </label>
+                <label class="mdui-radio mdui-col-md-2">
+                            <input name="macd" id="" type="radio" data-contrul="macd" value="down"/>
+                            <i class="mdui-radio-icon"></i>
+                            出现死叉
+                            </label>
+              </div>
+            </div>
+          </div>
+          <div class="mdui-panel-item">
+            <div class="mdui-panel-item-header">
+              <div class="mdui-panel-item-title">其他</div><i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i></div>
+            <div class="mdui-panel-item-body">
+              <div class="mdui-row">
+                <p class="mdui-typo-subheading-opacity"></p>
+              </div>
+              <div class="mdui-row">
+                <div class="mdui-col-md-1"></div>
+                <label class="mdui-checkbox mdui-col-md-2">
+                            <input name="" id="" type="checkbox" data-contrul="inmyfavorite" />
+                            <i class="mdui-checkbox-icon"></i>
+                            仅在我的自选股中筛选
+                            </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mdui-row">
+        <button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-raised">按条件筛选股票</button>
+      </div>
+    </div>
+  </div>
+  <div class="mdui-dialog" id="editgroup">
+    <div class="mdui-dialog-title">重命名分组</div>
+    <div class="mdui-dialog-content">
+      <div class="mdui-p-a-2">
+        <div class="mdui-textfield mdui-textfield-floating-label">
+          <input id="groupname" name="groupname" type="text" class="mdui-textfield-input" value="" />
+        </div>
+      </div>
+      <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
+        <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>修改</button>
+      </div>
+    </div>
+  </div>
+  <div class="mdui-dialog" id="newgroup">
+    <div class="mdui-dialog-title">新建分组</div>
+    <div class="mdui-dialog-content">
+      <div class="mdui-p-a-2">
+        <div class="mdui-textfield mdui-textfield-floating-label">
+          <input id="newgroupname" name="groupname" type="text" class="mdui-textfield-input" value="" />
+        </div>
+      </div>
+      <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
+        <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确定</button>
+      </div>
+    </div>
+  </div>
+  <script src="/js/stock.js"></script>
+  <script src="/js/home.js"></script>
+  <script>
+    $('#searchbox').on('keyup', function(event) {
+      if (event.key == "Enter") {
+        stock.transCode($('#searchbox').val()) ? window.open('/detail/?stockcode=' + stock.transCode($('#searchbox').val())) : mdui.snackbar({
+          message: '股票代码格式不正确',
+          position: 'top',
+          timeout: 2000
+        });;
+      }
+    });
+  </script>
+</body>
+
+</html>

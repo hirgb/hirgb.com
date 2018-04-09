@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>WAVELAB</title>
+  <link rel="stylesheet" href="//cdn.bootcss.com/mdui/0.3.0/css/mdui.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="//cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script>
+  <script src="//cdn.bootcss.com/mdui/0.3.0/js/mdui.min.js"></script>
+  <style>
+    #main{padding-left:0;}
+  </style>
+</head>
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-white mdui-loaded">
+  <div id="header" class="mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme">
+      <a href="/" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down"><i class="mdui-icon material-icons">trending_up</i></a>
+      <span id="title" class="mdui-typo-title"></span>
+      <div id="priceinfo" class="mdui-typo-title">
+          <i class="mdui-icon material-icons">arrow_upward</i><span id="upordown" class="mdui-typo-title"></span>
+          <i class="mdui-icon material-icons">attach_money</i><span id="closeprice" class="mdui-typo-title"></span>
+      </div>
+      <button id="infobtn" class="mdui-btn mdui-hidden-sm-down" mdui-menu="{target: '#infomenu', postion: 'bottom'}">信息聚合<i class="mdui-icon material-icons">keyboard_arrow_down</i></button>
+      <ul class="mdui-menu mdui-menu-cascade" id="infomenu">
+        <li class="mdui-menu-item"><a id="tencent" target="_blank">腾讯财经</a></li>
+        <li class="mdui-menu-item"><a id="sina" target="_blank">新浪财经</a></li>
+        <li class="mdui-menu-item"><a id="ifeng" target="_blank">凤凰财经</a></li>
+        <li class="mdui-menu-item"><a id="xueqiu" target="_blank">雪球财经</a></li>
+        <li class="mdui-menu-item"><a id="tonghuashun" target="_blank">同花顺</a></li>
+        <li class="mdui-menu-item"><a id="dongfangcaifu" target="_blank">东方财富网</a></li>
+        <li class="mdui-menu-item"><a id="hexun" target="_blank">和讯网</a></li>
+        <li class="mdui-menu-item"><a id="jinrongjie" target="_blank">金融界</a></li>
+        <li class="mdui-menu-item"><a id="gaf10" target="_blank">GAF10</a></li>
+      </ul>
+      <button id="cullbtn" class="mdui-btn mdui-hidden-sm-down" mdui-menu="{target: '#cullmenu', postion: 'bottom'}">精选资讯<i class="mdui-icon material-icons">keyboard_arrow_down</i></button>
+      <ul class="mdui-menu mdui-menu-cascade" id="cullmenu">
+        <li class="mdui-menu-item"><a id="gsjj" target="_blank">公司简介</a></li>
+        <li class="mdui-menu-item"><a id="ggxw" target="_blank">个股新闻</a></li>
+        <li class="mdui-menu-item"><a id="hyxw" target="_blank">行业新闻</a></li>
+        <li class="mdui-menu-item"><a id="gggg" target="_blank">个股公告</a></li>
+        <li class="mdui-menu-item"><a id="zdsx" target="_blank">重大事项</a></li>
+        <li class="mdui-menu-item"><a id="jbnb" target="_blank">季报/年报</a></li>
+        <li class="mdui-menu-item"><a id="yjbg" target="_blank">研究报告</a></li>
+        <li class="mdui-menu-item"><a id="gbgd" target="_blank">股东股本</a></li>
+        <li class="mdui-menu-item"><a id="fhsp" target="_blank">分红送配</a></li>
+        <li class="mdui-menu-item"><a id="cwbb" target="_blank">财务报表</a></li>
+        <li class="mdui-menu-item"><a id="cwzb" target="_blank">财务指标</a></li>
+        <li class="mdui-menu-item"><a id="cwfx" target="_blank">财务分析</a></li>
+        <li class="mdui-menu-item"><a id="yjyg" target="_blank">业绩预告</a></li>
+        <li class="mdui-menu-item"><a id="tzts" target="_blank">投资提示</a></li>
+        <li class="mdui-menu-item"><a id="jgyc" target="_blank">机构预测</a></li>
+      </ul>
+      <div class="mdui-toolbar-spacer"></div>
+      <div class="header-search-wrapper sideNav-lock mdui-hidden-md-down">
+          <input id="searchbox" type="text" name="Search" class="header-search-input z-depth-2" placeholder="Search stock" autocomplete="off">
+      </div>
+      <label class="mdui-checkbox mdui-hidden-sm-down"><input id="favoriteCheckbox" type="checkbox" /><i class="mdui-checkbox-icon"></i>添加自选</label>
+      <button id="addtradebtn" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '添加交易'}"><i class="mdui-icon material-icons">add</i></button>
+      <button id="viewsetting" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down" mdui-tooltip="{content: '视图设置'}"><i class="mdui-icon material-icons">view_compact</i></button>
+    </div>
+  </div>
+  <div class="mdui-drawer mdui-hidden-sm-down" id="left-drawer">
+    <ul class="mdui-list" mdui-collapse="{accordion: true}">
+      <li class="mdui-collapse-item mdui-collapse-item-open">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">equalizer</i>
+          <div class="mdui-list-item-content">个股数据</div>
+          <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <ul id="stockData" class="mdui-collapse-item-body mdui-list mdui-list-dense">
+          <!-- <li class="mdui-list-item mdui-ripple">New vs Returning</li> -->
+        </ul>
+      </li>
+      <li class="mdui-collapse-item">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">access_time</i>
+          <div class="mdui-list-item-content">最近浏览</div>
+          <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <ul id="recentStock" class="mdui-collapse-item-body mdui-list mdui-list-dense">
+          <!-- <li class="mdui-list-item mdui-ripple">New vs Returning</li> -->
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div id="main" class="mdui-container-fluid"></div>
+  <div class="mdui-dialog" id="addtrade">
+    <div class="mdui-dialog-title">添加交易数据</div>
+    <div class="mdui-dialog-content">
+      <div class="mdui-container-fluid">
+        <form id="addTradeData">
+        <div class="mdui-row">
+          <div class="mdui-col-xs-6">
+            <div class="mdui-textfield">
+              <label class="mdui-textfield-label">股票代码</label>
+              <input class="mdui-textfield-input" name="code" type="text" id="tradeStockCode"/>
+            </div>
+          </div>
+          <div class="mdui-col-xs-6">
+            <div class="mdui-textfield">
+            <label class="mdui-textfield-label">日期</label>
+            <input class="mdui-textfield-input" name="date" type="text" id="tradeDate"/>
+            </div>
+          </div>
+        </div>
+        <div class="mdui-row">
+          <div class="mdui-col-xs-6">
+            <div class="mdui-textfield">
+              <label class="mdui-textfield-label">价格</label>
+              <input class="mdui-textfield-input" name="price" type="text" id="tradePrice"/>
+            </div>
+          </div>
+          <div class="mdui-col-xs-6">
+            <div class="mdui-textfield">
+            <label class="mdui-textfield-label">交易数量</label>
+            <input class="mdui-textfield-input" name="volume" type="text" id="tradeVolume"/>
+            </div>
+          </div>
+        </div>
+        <div class="mdui-row">
+          <div class="mdui-col-xs-6">
+            <label class="mdui-switch">
+              <span>卖出&nbsp</span>
+              <input id="tradeType" name="type" type="checkbox" checked/>
+              <i class="mdui-switch-icon"></i>
+              <span>&nbsp买入</span>
+            </label>
+        </div>
+        </div>
+      </form>
+      </div>
+    </div>
+    <div class="mdui-dialog-actions">
+      <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
+      <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确定</button>
+    </div>
+  </div>
+<div class="mdui-dialog" id="addFavorite">
+    <div class="mdui-dialog-title">添加自选 - 选择分组</div>
+    <div class="mdui-dialog-content">
+        <div class="mdui-container">
+            <div class="mdui-row"></div>
+        </div>
+    </div>
+    <div class="mdui-dialog-actions">
+        <button class="mdui-btn" mdui-dialog-cancel>取消</button>
+        <button class="mdui-btn" mdui-dialog-confirm>确定</button>
+    </div>
+</div>
+</div>
+  <script src="/js/z.js" charset="utf-8"></script>
+  <script src="/js/config.js" charset="utf-8"></script>
+  <script src="/js/stock.js" charset="utf-8"></script>
+  <script src="/js/detail.js" charset="utf-8"></script>
+</body>
+</html>

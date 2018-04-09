@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WAVELAB</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/mdui/0.3.0/css/mdui.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        div#left-drawer{border-right:solid 1px #eee}
+        .mdui-row{margin:25px 10px;}
+        .mdui-checkbox{margin-right:20px;}
+        .mdui-panel-item-body .mdui-row{margin:0;}
+        .mdui-panel-item-body .mdui-row label.mdui-radio,label.mdui-checkbox{padding-left:30px;}
+        .mdui-typo-subheading{line-height:36px}
+        .mdui-table th i{color:rgba(0,0,0,.4);margin-right:10px;cursor:pointer;}
+        .height-150{height:200px;}
+        .chart{width:100%; height:100%;}
+        .panel{display:none;}
+        .edit-edit{position:absolute; right:10%; display:none;}
+        .edit-del{position:absolute; right:0%; display:none;}
+        .delete-favorite{position:absolute; left:0; bottom:0; height:25px; width:25px; color:rgba(255,  255,  255,  0.5); cursor:pointer; display:none}
+        #favorite .mdui-card{margin:15px 5px;}
+        #tradedata .mdui-table-fluid{box-shadow:none;}
+        #tradedata .mdui-row a{color:rgba(0,0,0,.54)}
+        #publicstrategy .mdui-card{margin:10px 0;}
+        #publicstrategy .mdui-card .mdui-card-content{height:120px;}
+    </style>
+  </head>
+
+  <body class="mdui-theme-primary-red mdui-theme-accent-blue mdui-drawer-body-left mdui-appbar-with-toolbar">
+    <div id="header" class="mdui-appbar mdui-appbar-fixed">
+      <div class="mdui-toolbar mdui-color-theme">
+        <a href="/" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down"><i class="mdui-icon material-icons">trending_up</i></a>
+        <a href="javascript:;" class="mdui-typo-title">控制台</a>
+        <div class="mdui-toolbar-spacer"></div>
+        <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" mdui-menu="{target: '#settingMenu', covered: false}"><i class="mdui-icon material-icons">settings</i></a>
+        <ul class="mdui-menu" id="settingMenu">
+          <li class="mdui-menu-item">
+            <a id="logoutbtn" href="javascript:;" class="mdui-ripple">
+            <i class="mdui-menu-item-icon mdui-icon material-icons">power_settings_new</i>退出
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  <div class="mdui-drawer mdui-hidden-sm-down" id="left-drawer">
+    <ul class="mdui-list" mdui-collapse="{accordion: false}">
+      <li class="mdui-collapse-item">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">equalizer</i>
+          <div class="mdui-list-item-content">策略管理</div>
+          <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+            <li class="mdui-list-item mdui-ripple" data-contrul="panel-addstrategy">添加公共策略</li>
+            <li class="mdui-list-item mdui-ripple" data-contrul="panel-delstrategy">修改/删除公共策略</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+    <div id="container" class="mdui-container-fluid">
+        <div id="panel-addstrategy" class="mdui-row panel">
+            <div class="mdui-row">
+                <div class="mdui-col-md-12">
+                    <div class="mdui-textfield">
+                        <input name="" id="addstrategy-title" type="text" class="mdui-textfield-input" placeholder="Title"/>
+                    </div>
+                </div>
+                <div class="mdui-col-md-12">
+                    <div class="mdui-textfield">
+                        <input name="" id="addstrategy-subtitle" type="text" class="mdui-textfield-input" placeholder="Subtitle"/>
+                    </div>
+                </div>
+                <div class="mdui-col-md-12">
+                    <div class="mdui-textfield">
+                        <textarea name="" id="addstrategy-introduce" type="text" class="mdui-textfield-input" placeholder="Introduce"></textarea>
+                    </div>
+                </div>
+                <div class="mdui-col-md-12">
+                    <button id="addstrategybtn" class="mdui-btn mdui-color-theme-accent">ADD STRATEGY</button>
+                </div>
+            </div>
+        </div>
+        <div id="panel-delstrategy" class="mdui-row panel">
+            <div id="publicstrategy" class="mdui-row-lg-6 mdui-row-xs-2 mdui-row-sm-3"></div>
+        </div>
+    </div>
+    <script src="//cdn.bootcss.com/mdui/0.3.0/js/mdui.min.js"></script>
+    <script src="/static/js/z.js"></script>
+    <script src="/static/js/zhkf.js"></script>
+  </body>
+</html>
