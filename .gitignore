@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 myapp.ini
 sql/nginx.conf
+flask/db.py
 # C extensions
 *.so
 
