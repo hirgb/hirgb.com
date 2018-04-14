@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <title>热点资讯</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/mdui/0.3.0/css/mdui.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/materialize.css">
+    <script src="//cdn.bootcss.com/echarts/4.0.4/echarts.min.js"></script>
+    <script src="//cdn.bootcss.com/mdui/0.3.0/js/mdui.min.js"></script>
+    <script src="//cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+</head>
+
+<body id="news" class="mdui-theme-primary-indigo mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
+    <div id="header" class="mdui-appbar mdui-appbar-fixed">
+        <div class="mdui-toolbar mdui-color-theme">
+            <a href="/" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down"><i class="mdui-icon material-icons">trending_up</i></a>
+            <a href="javascript:;" class="mdui-typo-title">波段实验室</a>
+            <div class="mdui-toolbar-spacer"></div>
+            <div class="header-search-wrapper sideNav-lock mdui-hidden-md-down">
+                <input id="searchbox" type="text" name="Search" class="header-search-input z-depth-2" placeholder="Search stock" autocomplete="off">
+            </div>
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down" mdui-tooltip="{content:'分享'}"><i class="mdui-icon material-icons">share</i></a>
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down" mdui-tooltip="{content:'语言'}"><i class="mdui-icon material-icons">language</i></a>
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down" mdui-tooltip="{content:'帮助'}"><i class="mdui-icon material-icons">help</i></a>
+        </div>
+    </div>
+    <div class="mdui-drawer" id="left-drawer">
+        <ul id="title-list" class="mdui-list">
+            <!-- <li class="mdui-collapse-item" v-for="title in titles">
+          <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+            <div class="mdui-list-item-content">{{title.text}}</div>
+          </div>
+        </li> -->
+            <title-item v-for="item in titles" v-bind:onetitle=item>
+            </title-item>
+        </ul>
+    </div>
+    <div class="mdui-container-fluid">
+        <div class="mdui-row">
+            <div class="" id="content">
+                <span v-bind:title="content">content</span>
+            </div>
+        </div>
+    </div>
+    <script src="/js/z.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var page = 1;
+        var url = 'http://www.gaf10.com/gridData.html?servicehost=20201&limit=1&page=' + page;
+
+        function display() {
+            var a = document.getElementById('news-list');
+            // window.data = a.text;
+            console.log(a.text);
+        }
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = url;
+        script.async = "async";
+        script.id = 'news-list';
+        try {
+            document.body.appendChild(script);
+        } catch (ex) {
+            var a = document.getElementById('news-list');
+            console.log(a.text);
+        }
+
+
+
+        Vue.component('title-item', {
+            props: ['onetitle'],
+            template: '<li class="mdui-collapse-item"><div class="mdui-collapse-item-header mdui-list-item mdui-ripple"><div class="mdui-list-item-content">{{ onetitle.text }}</div></div></li>'
+        });
+
+        var titlelist = new Vue({
+            el: '#title-list',
+            data: {
+                titles: [{
+                        text: 'aaa'
+                    },
+                    {
+                        text: 'bbb'
+                    },
+                    {
+                        text: 'ccc'
+                    },
+                    {
+                        text: 'ddd'
+                    }
+                ]
+            }
+        });
+
+        var content = new Vue({
+            el: '#content',
+            data: {
+                content: 'hello vue'
+            }
+        });
+    </script>
+</body>
+
+</html>

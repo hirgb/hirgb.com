@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<title>S - NOTE</title>
+	<link rel="stylesheet" href="//cdn.bootcss.com/mdui/0.3.0/css/mdui.min.css">
+	<script src="//cdn.bootcss.com/mdui/0.3.0/js/mdui.min.js"></script>
+	<script src="//libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script src="//cdn.bootcss.com/echarts/4.0.4/echarts.min.js"></script>
+	<style type="text/css">
+		.mdui-container-fluid {
+			padding: 0;
+		}
+
+		.mdui-dialog {
+			/*opacity: 1;*/
+		}
+
+		#main-drawer {
+			width: 400px;
+			transform: translateX(-400px);
+		}
+
+		#main-drawer .mdui-row {
+			margin: 0;
+		}
+
+		#right-drawer .mdui-grid-tile {
+			margin-top: 4px;
+		}
+
+		#right-drawer .mdui-grid-tile img {
+			width: 210px;
+		}
+
+		#right-drawer .mdui-collapse-item-body .mdui-list-item {
+			padding-left: 16px;
+		}
+
+		.action-btn {
+			display: none;
+		}
+	</style>
+</head>
+
+<body class="mdui-theme-primary-teal mdui-theme-accent-blue mdui-appbar-with-toolbar" onbeforeunload="confirmToLeave()">
+	<header class="mdui-appbar mdui-appbar-fixed">
+		<div class="mdui-toolbar mdui-color-theme">
+			<span class="mdui-btn mdui-btn-icon" mdui-drawer="{target:'#main-drawer', swipe:false, overlay:true}"><i class="mdui-icon material-icons">menu</i></span>
+			<a href="javascript:;" class="mdui-typo-headline">STRUCTURE - NOTE</a>
+			<span class="mdui-typo-title action-btn" id="doc-title"></span>
+			<div class="mdui-toolbar-spacer"></div>
+			<div class="mdui-textfield action-btn">
+				<input id="node-name" class="mdui-textfield-input" type="text" placeholder="Node name" mdui-tooltip="{content:'点击修改结点名称'}"></input>
+			</div>
+			<!--<span class="mdui-typo-title-opacity" id="node-name"></span>-->
+			<span class="mdui-btn mdui-btn-icon action-btn" mdui-tooltip="{content:'点击添加长文本结点'}"><i class="mdui-icon material-icons">bubble_chart</i></span>
+			<span class="mdui-btn mdui-btn-icon action-btn" id="node-view" mdui-tooltip="{content:'以当前结点为根结点显示'}"><i class="mdui-icon material-icons">gps_fixed</i></span>
+			<span class="mdui-btn mdui-btn-icon action-btn" id="restore-view" mdui-tooltip="{content:'恢复默认根结点显示'}"><i class="mdui-icon material-icons">gps_not_fixed</i></span>
+			<span class="mdui-btn mdui-btn-icon action-btn" id="new-node" mdui-tooltip="{content:'在当前结点下创建子结点'}"><i class="mdui-icon material-icons">add_circle_outline</i></span>
+			<span class="mdui-btn mdui-btn-icon action-btn" id="order-swip" mdui-tooltip="{content:'交换节点位置'}"><i class="mdui-icon material-icons">swap_vert</i></span>
+			<span class="mdui-btn mdui-btn-icon action-btn" id="new-brother-node" mdui-tooltip="{content:'在当前结点前创建兄弟结点'}"><i class="mdui-icon material-icons">playlist_add</i></span>
+			<span class="mdui-btn mdui-btn-icon action-btn" id="copy" mdui-tooltip="{content:'将上一个节点复制到当前节点下'}"><i class="mdui-icon material-icons">content_copy</i></span>
+			<span class="mdui-btn mdui-btn-icon action-btn" id="clip" mdui-tooltip="{content:'将上一个节点剪切到当前节点下'}"><i class="mdui-icon material-icons">content_cut</i></span>
+			<span class="mdui-btn mdui-btn-icon action-btn" id="delete-node" mdui-tooltip="{content:'删除当前结点'}"><i class="mdui-icon material-icons">delete_forever</i></span>
+			<span class="mdui-btn mdui-btn-icon" id="create" mdui-tooltip="{content:'新建笔记'}" mdui-drawer="{target:'#right-drawer', swipe:false, overlay:true}"><i class="mdui-icon material-icons mdui-text-color-yellow-100">note_add</i></span>
+			<span class="mdui-btn mdui-btn-icon" id="import" mdui-tooltip="{content:'导入笔记'}"><i class="mdui-icon material-icons mdui-text-color-yellow-100">move_to_inbox</i></span>
+			<span class="mdui-btn mdui-btn-icon action-btn" id="save" mdui-tooltip="{content:'保存笔记'}"><i class="mdui-icon material-icons mdui-text-color-yellow-100">save</i></span>
+			<span class="mdui-btn mdui-btn-icon action-btn" id="shutdown" mdui-tooltip="{content:'关闭文档'}"><i class="mdui-icon material-icons mdui-text-color-red">cancel</i></span>
+		</div>
+	</header>
+	<div class="mdui-container-fluid">
+		<div id="mycanvas">
+
+		</div>
+		<div style="display: none;">
+			<input type="file" name="" id="import-file" value="" onchange="myImport();" />
+		</div>
+	</div>
+	<div class="mdui-drawer mdui-drawer-close" id="main-drawer" style="background-color: white;">
+		<ul class="mdui-list" mdui-collapse="{accordion: true}">
+			<li class="mdui-collapse-item mdui-collapse-item-open">
+				<div class="mdui-collapse-item-header mdui-list-item">
+					<i class="mdui-icon material-icons">edit</i>
+					<span class="mdui-list-item-content">配置编辑器</span>
+					<i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+				</div>
+				<div class="mdui-collapse-item-body">
+					<textarea id="option-editor" name="" spellcheck="false" style="width: 380px; height: 600px; padding:10px;resize: none; outline: none; border: none; background-color:#e6ffe7"></textarea>
+					<div class="mdui-row">
+						<span id="save-option" class="mdui-btn mdui-btn-icon mdui-float-right" mdui-tooltip="{content:'保存配置'}"><i class="mdui-icon material-icons">save</i></span>
+						<span id="view-option" class="mdui-btn mdui-btn-icon mdui-float-right" mdui-tooltip="{content:'查看效果'}"><i class="mdui-icon material-icons">visibility</i></span>
+						<span id="restore-option" class="mdui-btn mdui-btn-icon mdui-float-right" mdui-tooltip="{content:'放弃更改'}"><i class="mdui-icon material-icons">undo</i></span>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<div class="mdui-drawer mdui-drawer-close mdui-drawer-right" id="right-drawer" style="background-color: white;">
+		<div class="mdui-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px;">
+			<div class="mdui-collapse-item mdui-collapse-item-open">
+				<div class="mdui-collapse-item-header mdui-list-item">
+					<div class="mdui-list-item-content">选择一个模板</div>
+				</div>
+				<div class="mdui-collapse-item-body mdui-list">
+					<div class="mdui-list-item">
+						<div class="mdui-grid-tile">
+							<a href="#" data-action="create-basic-tree" mdui-drawer-close><img src="http://echarts.baidu.com/examples/data/thumb/tree-basic.png" /></a>
+							<div class="mdui-grid-tile-actions">
+								<div class="mdui-grid-tile-text">
+									<div class="mdui-grid-tile-title">
+										Basic Tree
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="mdui-list-item">
+						<div class="mdui-grid-tile">
+							<a href="#" data-action="create-vertical-tree"><img src="http://echarts.baidu.com/examples/data/thumb/tree-vertical.png" /></a>
+							<div class="mdui-grid-tile-actions">
+								<div class="mdui-grid-tile-text">
+									<div class="mdui-grid-tile-title">
+										Vertical Tree
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/note.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		//
+		$('#mycanvas').css({
+			'height': $(window).height() - 64,
+			'width': '100%',
+			'background-color': 'white'
+		});
+
+		//create note
+		$('#right-drawer .mdui-list a').on('click', function() {
+			if (mychart) {
+				if (confirm('You are aleady have a note, create a new note will clear current work, are you sure?')) {
+					docInit();
+					createNote($(this).data('action'));
+				}
+			} else {
+				createNote($(this).data('action'));
+			}
+		});
+
+		//import note
+		$('#import').on('click', function() {
+			if (mychart) {
+				if (confirm('You are aleady have a note, import a note will clear current work, are you sure?')) {
+					$('#import-file').trigger('click');
+					docInit();
+				}
+			} else {
+				$('#import-file').trigger('click');
+			}
+		});
+
+		$('#content').on('keydown', function() {});
+
+		function confirmToLeave() {
+			if (mychart) {
+				event.returnValue = "请确定当前笔记已保存";
+			}
+		}
+	</script>
+</body>
+
+</html>
