@@ -393,9 +393,9 @@ function display(pagedata) {
                 },
                 markPoint: {
                     label: {
-                        normal: {
-                            formatter: '{b}',
-                        }
+                      formatter: function(params){
+                        return params.data.name;
+                      }
                     },
                     data: pagedata.stockdata.trade
                 }
