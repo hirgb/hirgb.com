@@ -727,7 +727,9 @@ function stockDataDisplay() {
     let upordown = stockdata[32];
     let closeprice = stockdata[3];
     let htmlstr = '';
-
+    stockData.name = stockdata[1];
+    $('title').text(stockData.name + stockData.code + ' - WAVE LAB');
+    $('#title').text(stockData.name + stockData.code);
     htmlstr += '<li class="mdui-list-item">　　当前：' + stockdata[3] + '元</li>';
     htmlstr += '<li class="mdui-list-item">　　昨收：' + stockdata[4] + '元</li>';
     htmlstr += '<li class="mdui-list-item">　　今开：' + stockdata[5] + '元</li>';
