@@ -47,7 +47,7 @@
                 <input id="searchbox" type="text" name="Search" class="header-search-input z-depth-2" placeholder="Search stock" autocomplete="off">
             </div>
             <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" mdui-tooltip="{content:'登录'}" id="loginicon"><i class="mdui-icon material-icons">person_outline</i></a>
-            <a href="/registe/" target="_self" class="mdui-btn mdui-btn-icon mdui-ripple" mdui-tooltip="{content:'注册'}"><i class="mdui-icon material-icons">person_add</i></a>
+            <a href="/registe.html" target="_self" class="mdui-btn mdui-btn-icon mdui-ripple" mdui-tooltip="{content:'注册'}"><i class="mdui-icon material-icons">person_add</i></a>
             <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down" mdui-tooltip="{content:'分享'}"><i class="mdui-icon material-icons">share</i></a>
             <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down" mdui-tooltip="{content:'语言'}"><i class="mdui-icon material-icons">language</i></a>
             <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down" mdui-tooltip="{content:'帮助'}"><i class="mdui-icon material-icons">help</i></a>
@@ -176,7 +176,7 @@
         });
         $(document).on('click', '#loginicon', function() {
             if (!!Z.cookie.get('loginname')) {
-                window.location.href = '/home';
+                window.location.href = '/home.html';
             } else {
                 loginbox.open();
             }
@@ -198,7 +198,7 @@
                             var data = JSON.parse(respObj.data);
                             Z.cookie.set('loginname', data.loginname, 365);
                             Z.cookie.set('token', data.token, 365);
-                            window.location.href = '/home/';
+                            window.location.href = '/home.html';
                         } else {
                             $('#loginname').val('');
                             $('#password').val('');
@@ -210,7 +210,7 @@
         });
         $('#searchbox').on('keyup', function(event) {
             if (event.key == "Enter") {
-                stock.transCode($('#searchbox').val()) ? window.open('/detail/?stockcode=' + stock.transCode($('#searchbox').val())) : mdui.snackbar({
+                stock.transCode($('#searchbox').val()) ? window.open('/detail.html?stockcode=' + stock.transCode($('#searchbox').val())) : mdui.snackbar({
                     message: '股票代码格式不正确',
                     position: 'top',
                     timeout: 2000

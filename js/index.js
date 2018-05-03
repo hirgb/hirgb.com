@@ -3,7 +3,7 @@ function loadData(data, element) {
     let option = {
         title: {
             text: data.name + '-' + data.code,
-            link: '/detail/?stockcode=' + data.code,
+            link: '/detail.html?stockcode=' + data.code,
             target: 'black',
             textStyle: {
                 color: '#eee',

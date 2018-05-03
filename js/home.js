@@ -93,7 +93,7 @@ $(document).on('click', '.mdui-collapse-item',
             var data = JSON.parse(respObj.data);
             var htmlstr = '<div class="mdui-panel mdui-panel-gapless">';
             for (var i = 0; i < data.length; i++) {
-              htmlstr += '<div class="mdui-panel-item"><div class="mdui-panel-item-header"><div class="mdui-panel-item-title">' + data[i].name + ' - ' + data[i].code + '<a href="/detail/?stockcode=' + data[i].code + '" target="_blank"><i class="mdui-icon material-icons">trending_up</i></a></div><i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i></div><div class="mdui-panel-item-body"><div class="mdui-table-fluid"><table class="mdui-table mdui-table-hoverable"><thead><tr><th>日期</th><th>买卖</th><th>价格</th><th>数量</th><th>总价</th><th>编辑</th></tr></thead><tbody>';
+              htmlstr += '<div class="mdui-panel-item"><div class="mdui-panel-item-header"><div class="mdui-panel-item-title">' + data[i].name + ' - ' + data[i].code + '<a href="/detail.html?stockcode=' + data[i].code + '" target="_blank"><i class="mdui-icon material-icons">trending_up</i></a></div><i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i></div><div class="mdui-panel-item-body"><div class="mdui-table-fluid"><table class="mdui-table mdui-table-hoverable"><thead><tr><th>日期</th><th>买卖</th><th>价格</th><th>数量</th><th>总价</th><th>编辑</th></tr></thead><tbody>';
               for (var j = 0; j < data[i].value.length; j++) {
                 var tradedata = data[i].code + '-' + data[i].value[j][0] + '-' + data[i].value[j][2] + '-' + data[i].value[j][3] + '-' + data[i].value[j][1];
                 htmlstr += '<tr><th>' + data[i].value[j][0] + '</th><th>' + data[i].value[j][2] + '</th><th>' + data[i].value[j][3] + '</th><th>' + data[i].value[j][1] + '</th><th>' + data[i].value[j][3] * data[i].value[j][1] + '</th><th><i class="mdui-icon material-icons" data-trade="edit-' + tradedata + '">edit</i><i class="mdui-icon material-icons" data-trade="delete-' + tradedata + '">delete</i></th></tr>';
@@ -176,7 +176,7 @@ $(document).on('click', '.favoritegroup span',
     list.forEach(function(e, i) {
       var chart = echarts.init(e);
       option.title.text = stocklist[i][1];
-      option.title.link = '/detail/?stockcode=' + stocklist[i][0];
+      option.title.link = '/detail.html?stockcode=' + stocklist[i][0];
       option.xAxis.data = stockData[stocklist[i][0]]['date'];
       option.series[0].data = stockData[stocklist[i][0]]['value'];
       chart.setOption(option);
@@ -455,7 +455,7 @@ $(document).on('click', '#publicstrategy button',
           list.forEach(function(e, i) {
             var chart = echarts.init(e);
             option.title.text = data.stocks[i].name;
-            option.title.link = '/detail/?stockcode=' + data.stocks[i].code;
+            option.title.link = '/detail.html?stockcode=' + data.stocks[i].code;
             option.xAxis.data = data.stocks[i].date;
             option.series[0].data = data.stocks[i].value;
             chart.setOption(option);
@@ -495,7 +495,7 @@ $(document).on('click', '#search-more-btn button',
           list.forEach(function(e, i) {
             var chart = echarts.init(e);
             option.title.text = data.stocks[i].name;
-            option.title.link = '/detail/?stockcode=' + data.stocks[i].code;
+            option.title.link = '/detail.html?stockcode=' + data.stocks[i].code;
             option.xAxis.data = data.stocks[i].date;
             option.series[0].data = data.stocks[i].value;
             chart.setOption(option);

@@ -5,7 +5,7 @@ import pymysql, hashlib
 
 
 def sqlquery(query):
-    con = pymysql.connect('localhost', 'root', '123456', 'wavelab', charset = 'utf8')
+    con = pymysql.connect('localhost', 'root', '123456', 'wavelab', charset='utf8')
     try:
         cursor = con.cursor()
         cursor.execute(query)
