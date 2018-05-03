@@ -1,10 +1,9 @@
 #!/usr/bin/python3
-#coding:utf-8
+# coding:utf-8
 
 from flask import Flask, request, make_response
 from stockfilter import *
-import json, db
-import hashlib, traceback
+import json, db, random
 
 app = Flask(__name__)
 
@@ -20,14 +19,12 @@ def ajax():
         stock = cursor.fetchone()
         respObj['data'] = '{"code":"%s", "name":"%s"}' % (stock[0], stock[1])
         respObj['success'] = True
-        jsonstr = json.dumps(respObj)
     elif action == 'getindexdata':
         query = "select data from wave_cache where name='index_data'"
         cursor = db.sqlquery(query)
         data = cursor.fetchone()[0]
         respObj['success'] = True
         respObj['data'] = data
-        jsonstr = json.dumps(respObj)
     elif action == 'getstockdata':
         try:
             query = "select code, name from wave_stocklist where code = '%s'" % request.values['stockcode']
@@ -66,11 +63,9 @@ def ajax():
                          "ma60": ma60, "dif": dif, "dea": dea, "bar": bar}
             respObj['data'] = json.dumps(stockdata)
             respObj['success'] = True
-            jsonstr = json.dumps(respObj)
         except:
             respObj['success'] = False
             respObj['message'] = 'server error'
-            jsonstr = json.dumps(respObj)
     elif action == 'getsingletrade':
         if db.md5(request.cookies['loginname'] + 'zhangkefei') == request.cookies['token']:
             query = "select trade from wave_user where login = '%s'" % request.cookies['loginname']
@@ -83,7 +78,6 @@ def ajax():
                 dataFinal.append({"name": i[2], "coord": [i[0], i[3]], "itemStyle": {"normal": {"color": color}}})
             respObj['data'] = json.dumps(dataFinal, ensure_ascii=False)
             respObj['success'] = True
-            jsonstr = json.dumps(respObj)
     elif action == 'addtrade':
         code = request.values['code']
         date = request.values['date']
@@ -103,10 +97,8 @@ def ajax():
                 json.dumps(trade, ensure_ascii=False), user)
             db.sqlquery(query)
             respObj['success'] = True
-            jsonstr = json.dumps(respObj)
         else:
             respObj['success'] = False
-            jsonstr = json.dumps(respObj)
     elif action == 'gettrade':
         query = "select trade from wave_user where login = '%s'" % request.cookies['loginname']
         cursor = db.sqlquery(query)
@@ -122,7 +114,6 @@ def ajax():
             tradeData.append({'code': i, 'name': codenamedic[i], 'value': trade[i]})
         respObj['data'] = json.dumps(tradeData, ensure_ascii=False)
         respObj['success'] = True
-        jsonstr = json.dumps(respObj)
     elif action == 'deletetrade':
         try:
             datalist = json.loads(request.values['data'])
@@ -136,10 +127,8 @@ def ajax():
                         json.dumps(trade, ensure_ascii=False), request.cookies['loginname'])
                     db.sqlquery(query)
                     respObj['success'] = True
-                    jsonstr = json.dumps(respObj)
         except:
             respObj['success'] = False
-            jsonstr = json.dumps(respObj)
     elif action == 'getfavorite':
         query = "select favorite from wave_user where login = '%s'" % request.cookies['loginname']
         cursor = db.sqlquery(query)
@@ -159,7 +148,6 @@ def ajax():
         dataFinal = {"favorite": favoriteStock, "stockdata": stockData}
         respObj['data'] = json.dumps(dataFinal, ensure_ascii=False)
         respObj['success'] = True
-        jsonstr = json.dumps(respObj)
     elif action == 'renamegroup':
         query = "select favorite from wave_user where login = '%s'" % request.cookies['loginname']
         cursor = db.sqlquery(query)
@@ -173,7 +161,6 @@ def ajax():
             json.dumps(favoriteStock, ensure_ascii=False), request.cookies['loginname'])
         db.sqlquery(query)
         respObj['success'] = True
-        jsonstr = json.dumps(respObj)
     elif action == 'creategroup':
         try:
             name = request.values['newgroupname']
@@ -186,10 +173,8 @@ def ajax():
                 json.dumps(favorite, ensure_ascii=False), user)
             db.sqlquery(query)
             respObj['success'] = True
-            jsonstr = json.dumps(respObj)
         except:
             respObj['success'] = False
-            jsonstr = json.dumps(respObj)
     elif action == 'deletegroup':
         try:
             user = request.cookies['loginname']
@@ -205,10 +190,8 @@ def ajax():
                 json.dumps(favorite, ensure_ascii=False), user)
             db.sqlquery(query)
             respObj['success'] = True
-            jsonstr = json.dumps(respObj)
         except:
             respObj['success'] = False
-            jsonstr = json.dumps(respObj)
     elif action == 'deletefavoritestock':
         try:
             user = request.cookies['loginname']
@@ -227,10 +210,8 @@ def ajax():
             json.dumps(favorite, ensure_ascii=False), user)
             db.sqlquery(query)
             respObj['success'] = True
-            jsonstr = json.dumps(respObj)
         except:
             respObj['success'] = False
-            jsonstr = json.dumps(respObj)
     elif action == 'addfavoritestock':
         try:
             user = request.cookies['loginname']
@@ -248,10 +229,8 @@ def ajax():
             json.dumps(favorite, ensure_ascii=False), user)
             db.sqlquery(query)
             respObj['success'] = True
-            jsonstr = json.dumps(respObj)
         except:
             respObj['success'] = False
-            jsonstr = json.dumps(respObj)
     elif action == 'getpublicstrategy':
         try:
             query = "select id, title, subtitle, introduce from wave_strategy where userid is null order by sequence"
@@ -260,10 +239,8 @@ def ajax():
             strategy = [[i[0], i[1], i[2], i[3]] for i in result]
             respObj['data'] = json.dumps(strategy, ensure_ascii=False)
             respObj['success'] = True
-            jsonstr = json.dumps(respObj)
         except:
             respObj['success'] = False
-            jsonstr = json.dumps(respObj)
     elif action == 'search':
         data = {'count':0,'stocks':[]}
         strategyid = int(request.values['strategyid'])
@@ -276,7 +253,6 @@ def ajax():
             stocklistPage.pop()
         respObj['success'] = True
         respObj['data'] = json.dumps(data, ensure_ascii=False)
-        jsonstr = json.dumps(respObj)
     elif action == 'login':
         loginname = request.values['loginname']
         password = request.values['password']
@@ -287,11 +263,8 @@ def ajax():
         if cursor.fetchone()[0] > 0:
             respObj['success'] = True
             respObj['data'] = '{"loginname":"%s", "token":"%s"}' % (loginname, token)
-            # jsonstr = '{"loginname":"%s", "token":"%s", "status":1}' % (loginname, token)
-            jsonstr = json.dumps(respObj)
         else:
             respObj['success'] = False
-            jsonstr = json.dumps(respObj)
     elif action == 'register':
         loginname = request.values['loginname']
         username = request.values['username']
@@ -303,10 +276,57 @@ def ajax():
                 str(loginname), username, db.md5(password))
             db.sqlquery(query)
             respObj['success'] = True
-            jsonstr = json.dumps(respObj)
         else:
             respObj['success'] = False
-            jsonstr = json.dumps(respObj)
+    elif action == 'lotto_produce_username':
+        a = list('abcdefghigklmnopqrstuvwxyz')
+        ready = False
+        while not ready:
+            username = ''.join(random.sample(a, 6))
+            query = "select count(name) from lotto_user where name = '%s'" % username
+            cursor = db.sqlquery(query)
+            if cursor.fetchone()[0] == 0:
+                ready = True
+        respObj['success'] = True
+        respObj['data'] = json.dumps(username)
+    elif action == 'lotto_registe':
+        username = request.values['username']
+        password = request.values['password']
+        phone = request.values['phone']
+
+        query = "insert into lotto_user (name, password, phone) values ('%s', '%s', '%s')" % (username, db.md5(password), phone)
+        db.sqlquery(query)
+        respObj['success'] = True
+    elif action == 'lotto_login':
+        username = request.values['username']
+        password = request.values['password']
+
+        query = "select count(*) from lotto_user where name = '%s' and password = '%s'" % (username, db.md5(password))
+        cursor = db.sqlquery(query)
+        if cursor.fetchone()[0] > 0:
+            respObj['success'] = True
+        else:
+            respObj['success'] = False
+    elif action == 'lotto_query_award_number':
+        issue = request.values['issue']
+        query = "select number from lotto_award_number where issue = '%s'" % str(issue)
+        cursor = db.sqlquery(query)
+        result = cursor.fetchone()
+        if str(type(result)) == "<class 'NoneType'>":
+            respObj['success'] = False
+        else:
+            respObj['success'] = True
+            respObj['data'] = result[0]
+    elif action == 'lotto_verify_username':
+        username = request.values['username']
+        query = "select count(name) from lotto_user where name = '%s'" % username
+        cursor = db.sqlquery(query)
+        if cursor.fetchone()[0] > 0:
+            respObj['success'] = False
+        else:
+            respObj['success'] = True
+
+    jsonstr = json.dumps(respObj)
     resp = make_response(jsonstr)
     resp.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return resp
