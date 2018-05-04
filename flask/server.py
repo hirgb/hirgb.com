@@ -342,7 +342,13 @@ def wordroot():
         data = cursor.fetchone()[0]
         respObj['success'] = True
         respObj['data'] = data
-
+    elif action == 'cnn':
+        query = "select title, url, image from wordroot_cnn order by id desc limit 5"
+        cursor = db.sqlquery(query)
+        result = cursor.fetchall()
+        data = [[i[0], i[1], i[2]] for i in result]
+        respObj['success'] = True
+        respObj['data'] = data
     jsonstr = json.dumps(respObj)
     resp = make_response(jsonstr)
     resp.headers['Content-Type'] = 'text/plain; charset=utf-8'

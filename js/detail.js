@@ -148,7 +148,7 @@ $('#addFavorite').on('cancel.mdui.dialog',
 $('#searchbox').on('keyup',
     function(event) {
         if (event.key == "Enter") {
-            stock.transCode($('#searchbox').val()) ? window.location.href = '/detail/?stockcode=' + stock.transCode($('#searchbox').val()) : mdui.snackbar({
+            stock.transCode($('#searchbox').val()) ? window.location.href = '/detail.html?stockcode=' + stock.transCode($('#searchbox').val()) : mdui.snackbar({
                 message: '股票代码格式不正确',
                 position: 'top',
                 timeout: 800
@@ -172,7 +172,7 @@ function display(pagedata) {
                 text: '一年',
                 left: '5%',
                 top: 5,
-                link: '/detail/?stockcode=' + pagedata.stockdata.code + '&yearcount=1',
+                link: '/detail.html?stockcode=' + pagedata.stockdata.code + '&yearcount=1',
                 target: 'self',
                 textStyle: {
                     fontSize: 14
@@ -182,7 +182,7 @@ function display(pagedata) {
                 text: '两年',
                 left: '7%',
                 top: 5,
-                link: '/detail/?stockcode=' + pagedata.stockdata.code + '&yearcount=2',
+                link: '/detail.html?stockcode=' + pagedata.stockdata.code + '&yearcount=2',
                 target: 'self',
                 textStyle: {
                     fontSize: 14
@@ -192,7 +192,7 @@ function display(pagedata) {
                 text: '三年',
                 left: '9%',
                 top: 5,
-                link: '/detail/?stockcode=' + pagedata.stockdata.code + '&yearcount=3',
+                link: '/detail.html?stockcode=' + pagedata.stockdata.code + '&yearcount=3',
                 target: 'self',
                 textStyle: {
                     fontSize: 14
@@ -202,7 +202,7 @@ function display(pagedata) {
                 text: '五年',
                 left: '11%',
                 top: 5,
-                link: '/detail/?stockcode=' + pagedata.stockdata.code + '&yearcount=5',
+                link: '/detail.html?stockcode=' + pagedata.stockdata.code + '&yearcount=5',
                 target: 'self',
                 textStyle: {
                     fontSize: 14
@@ -212,7 +212,7 @@ function display(pagedata) {
                 text: '十年',
                 left: '13%',
                 top: 5,
-                link: '/detail/?stockcode=' + pagedata.stockdata.code + '&yearcount=10',
+                link: '/detail.html?stockcode=' + pagedata.stockdata.code + '&yearcount=10',
                 target: 'self',
                 textStyle: {
                     fontSize: 14
@@ -670,7 +670,7 @@ function recentStockDisplay() {
     recentObj = JSON.parse(localStorage.getItem(page.user + 'recentStock'));
     htmlStr = '';
     for (i in recentObj) {
-        htmlStr += '<a href="/detail/?stockcode=' + recentObj[i][0] + '"><li class="mdui-list-item">' + recentObj[i][1] + '</li></a>';
+        htmlStr += '<a href="/detail.html?stockcode=' + recentObj[i][0] + '"><li class="mdui-list-item">' + recentObj[i][1] + '</li></a>';
     }
     $('#recentStock').html(htmlStr);
 }
