@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="250e2a6c-e3dc-47dd-93e1-1f7f11f40c12" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask/db.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/flask/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/detail.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,11 +17,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="aws-myapp.ini" pinned="false" current-in-tab="true">
+      <file leaf-file-name="aws-myapp.ini" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/aws-myapp.ini">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="200">
-              <caret line="8" column="22" lean-forward="true" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+              <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/flask/server.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="778">
+              <caret line="365" column="13" lean-forward="true" selection-start-line="365" selection-start-column="13" selection-end-line="365" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -64,7 +70,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -75,12 +80,18 @@
             <path>
               <item name="hirgb.com" type="b2602c69:ProjectViewProjectNode" />
               <item name="hirgb.com" type="462c0819:PsiDirectoryNode" />
+              <item name="flask" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hirgb.com" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hirgb.com" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -138,66 +149,24 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/aws-myapp.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/aws-myapp.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" column="22" lean-forward="true" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/flask/server.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8600">
           <caret line="344" selection-start-line="344" selection-end-line="344" />
-          <folding>
-            <element signature="n#!!doc" />
-            <element signature="e#348#625#0" />
-            <element signature="e#669#867#0" />
-            <element signature="e#911#2715#0" />
-            <element signature="e#928#2612#0" />
-            <element signature="e#2248#2522#0" />
-            <element signature="e#2641#2715#0" />
-            <element signature="e#2761#3448#0" />
-            <element signature="e#2857#3448#0" />
-            <element signature="e#3172#3338#0" />
-            <element signature="e#3488#4407#0" />
-            <element signature="e#3807#4354#0" />
-            <element signature="e#4447#5212#0" />
-            <element signature="e#5255#6032#0" />
-            <element signature="e#5272#5977#0" />
-            <element signature="e#5568#5977#0" />
-            <element signature="e#5684#5977#0" />
-            <element signature="e#6075#6950#0" />
-            <element signature="e#6360#6776#0" />
-            <element signature="e#6397#6776#0" />
-            <element signature="e#6993#7681#0" />
-            <element signature="e#7267#7453#0" />
-            <element signature="e#7341#7453#0" />
-            <element signature="e#7724#8328#0" />
-            <element signature="e#7741#8273#0" />
-            <element signature="e#8371#9059#0" />
-            <element signature="e#8388#9004#0" />
-            <element signature="e#8698#8789#0" />
-            <element signature="e#8745#8789#0" />
-            <element signature="e#9110#9935#0" />
-            <element signature="e#9127#9880#0" />
-            <element signature="e#9443#9669#0" />
-            <element signature="e#9492#9669#0" />
-            <element signature="e#9537#9643#0" />
-            <element signature="e#9589#9643#0" />
-            <element signature="e#9983#10782#0" />
-            <element signature="e#10000#10727#0" />
-            <element signature="e#10406#10516#0" />
-            <element signature="e#10449#10516#0" />
-            <element signature="e#10831#11262#0" />
-            <element signature="e#10848#11207#0" />
-            <element signature="e#11300#11824#0" />
-            <element signature="e#11641#11727#0" />
-            <element signature="e#11861#12389#0" />
-            <element signature="e#12225#12336#0" />
-            <element signature="e#12429#13075#0" />
-            <element signature="e#12752#13022#0" />
-            <element signature="e#13129#13544#0" />
-            <element signature="e#13227#13463#0" />
-            <element signature="e#13589#13903#0" />
-            <element signature="e#13946#14313#0" />
-            <element signature="e#14369#14744#0" />
-            <element signature="e#14679#14744#0" />
-            <element signature="e#14797#15080#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -205,62 +174,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8600">
           <caret line="344" lean-forward="true" selection-start-line="344" selection-end-line="344" />
-          <folding>
-            <element signature="n#!!doc" />
-            <element signature="e#348#625#0" />
-            <element signature="e#669#867#0" />
-            <element signature="e#911#2715#0" />
-            <element signature="e#928#2612#0" />
-            <element signature="e#2248#2522#0" />
-            <element signature="e#2641#2715#0" />
-            <element signature="e#2761#3448#0" />
-            <element signature="e#2857#3448#0" />
-            <element signature="e#3172#3338#0" />
-            <element signature="e#3488#4407#0" />
-            <element signature="e#3807#4354#0" />
-            <element signature="e#4447#5212#0" />
-            <element signature="e#5255#6032#0" />
-            <element signature="e#5272#5977#0" />
-            <element signature="e#5568#5977#0" />
-            <element signature="e#5684#5977#0" />
-            <element signature="e#6075#6950#0" />
-            <element signature="e#6360#6776#0" />
-            <element signature="e#6397#6776#0" />
-            <element signature="e#6993#7681#0" />
-            <element signature="e#7267#7453#0" />
-            <element signature="e#7341#7453#0" />
-            <element signature="e#7724#8328#0" />
-            <element signature="e#7741#8273#0" />
-            <element signature="e#8371#9059#0" />
-            <element signature="e#8388#9004#0" />
-            <element signature="e#8698#8789#0" />
-            <element signature="e#8745#8789#0" />
-            <element signature="e#9110#9935#0" />
-            <element signature="e#9127#9880#0" />
-            <element signature="e#9443#9669#0" />
-            <element signature="e#9492#9669#0" />
-            <element signature="e#9537#9643#0" />
-            <element signature="e#9589#9643#0" />
-            <element signature="e#9983#10782#0" />
-            <element signature="e#10000#10727#0" />
-            <element signature="e#10406#10516#0" />
-            <element signature="e#10449#10516#0" />
-            <element signature="e#10831#11262#0" />
-            <element signature="e#10848#11207#0" />
-            <element signature="e#11300#11824#0" />
-            <element signature="e#11641#11727#0" />
-            <element signature="e#11861#12389#0" />
-            <element signature="e#12225#12336#0" />
-            <element signature="e#12429#13075#0" />
-            <element signature="e#12752#13022#0" />
-            <element signature="e#13129#13544#0" />
-            <element signature="e#13227#13463#0" />
-            <element signature="e#13589#13903#0" />
-            <element signature="e#13946#14313#0" />
-            <element signature="e#14369#14744#0" />
-            <element signature="e#14679#14744#0" />
-            <element signature="e#14797#15080#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -282,62 +195,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7450">
           <caret line="298" column="33" lean-forward="true" selection-start-line="298" selection-start-column="33" selection-end-line="298" selection-end-column="33" />
-          <folding>
-            <element signature="n#!!doc" />
-            <element signature="e#348#625#0" />
-            <element signature="e#669#867#0" />
-            <element signature="e#911#2715#0" />
-            <element signature="e#928#2612#0" />
-            <element signature="e#2248#2522#0" />
-            <element signature="e#2641#2715#0" />
-            <element signature="e#2761#3448#0" />
-            <element signature="e#2857#3448#0" />
-            <element signature="e#3172#3338#0" />
-            <element signature="e#3488#4407#0" />
-            <element signature="e#3807#4354#0" />
-            <element signature="e#4447#5212#0" />
-            <element signature="e#5255#6032#0" />
-            <element signature="e#5272#5977#0" />
-            <element signature="e#5568#5977#0" />
-            <element signature="e#5684#5977#0" />
-            <element signature="e#6075#6950#0" />
-            <element signature="e#6360#6776#0" />
-            <element signature="e#6397#6776#0" />
-            <element signature="e#6993#7681#0" />
-            <element signature="e#7267#7453#0" />
-            <element signature="e#7341#7453#0" />
-            <element signature="e#7724#8328#0" />
-            <element signature="e#7741#8273#0" />
-            <element signature="e#8371#9059#0" />
-            <element signature="e#8388#9004#0" />
-            <element signature="e#8698#8789#0" />
-            <element signature="e#8745#8789#0" />
-            <element signature="e#9110#9935#0" />
-            <element signature="e#9127#9880#0" />
-            <element signature="e#9443#9669#0" />
-            <element signature="e#9492#9669#0" />
-            <element signature="e#9537#9643#0" />
-            <element signature="e#9589#9643#0" />
-            <element signature="e#9983#10782#0" />
-            <element signature="e#10000#10727#0" />
-            <element signature="e#10406#10516#0" />
-            <element signature="e#10449#10516#0" />
-            <element signature="e#10831#11262#0" />
-            <element signature="e#10848#11207#0" />
-            <element signature="e#11300#11824#0" />
-            <element signature="e#11641#11727#0" />
-            <element signature="e#11861#12389#0" />
-            <element signature="e#12225#12336#0" />
-            <element signature="e#12429#13075#0" />
-            <element signature="e#12752#13022#0" />
-            <element signature="e#13129#13544#0" />
-            <element signature="e#13227#13463#0" />
-            <element signature="e#13589#13903#0" />
-            <element signature="e#13946#14313#0" />
-            <element signature="e#14369#14744#0" />
-            <element signature="e#14679#14744#0" />
-            <element signature="e#14797#15080#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -374,73 +231,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/flask/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="343" column="30" selection-start-line="343" selection-start-column="30" selection-end-line="343" selection-end-column="30" />
-          <folding>
-            <element signature="n#!!doc" />
-            <element signature="e#348#625#0" />
-            <element signature="e#669#867#0" />
-            <element signature="e#911#2715#0" />
-            <element signature="e#928#2612#0" />
-            <element signature="e#2248#2522#0" />
-            <element signature="e#2641#2715#0" />
-            <element signature="e#2761#3448#0" />
-            <element signature="e#2857#3448#0" />
-            <element signature="e#3172#3338#0" />
-            <element signature="e#3488#4407#0" />
-            <element signature="e#3807#4354#0" />
-            <element signature="e#4447#5212#0" />
-            <element signature="e#5255#6032#0" />
-            <element signature="e#5272#5977#0" />
-            <element signature="e#5568#5977#0" />
-            <element signature="e#5684#5977#0" />
-            <element signature="e#6075#6950#0" />
-            <element signature="e#6360#6776#0" />
-            <element signature="e#6397#6776#0" />
-            <element signature="e#6993#7681#0" />
-            <element signature="e#7267#7453#0" />
-            <element signature="e#7341#7453#0" />
-            <element signature="e#7724#8328#0" />
-            <element signature="e#7741#8273#0" />
-            <element signature="e#8371#9059#0" />
-            <element signature="e#8388#9004#0" />
-            <element signature="e#8698#8789#0" />
-            <element signature="e#8745#8789#0" />
-            <element signature="e#9110#9935#0" />
-            <element signature="e#9127#9880#0" />
-            <element signature="e#9443#9669#0" />
-            <element signature="e#9492#9669#0" />
-            <element signature="e#9537#9643#0" />
-            <element signature="e#9589#9643#0" />
-            <element signature="e#9983#10782#0" />
-            <element signature="e#10000#10727#0" />
-            <element signature="e#10406#10516#0" />
-            <element signature="e#10449#10516#0" />
-            <element signature="e#10831#11262#0" />
-            <element signature="e#10848#11207#0" />
-            <element signature="e#11300#11824#0" />
-            <element signature="e#11641#11727#0" />
-            <element signature="e#11861#12389#0" />
-            <element signature="e#12225#12336#0" />
-            <element signature="e#12429#13075#0" />
-            <element signature="e#12752#13022#0" />
-            <element signature="e#13129#13544#0" />
-            <element signature="e#13227#13463#0" />
-            <element signature="e#13589#13903#0" />
-            <element signature="e#13946#14313#0" />
-            <element signature="e#14369#14744#0" />
-            <element signature="e#14679#14744#0" />
-            <element signature="e#14797#15080#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/aws-myapp.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
-          <caret line="8" column="22" lean-forward="true" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flask/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="778">
+          <caret line="365" column="13" lean-forward="true" selection-start-line="365" selection-start-column="13" selection-end-line="365" selection-end-column="13" />
         </state>
       </provider>
     </entry>

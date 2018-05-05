@@ -343,10 +343,18 @@ def wordroot():
         respObj['success'] = True
         respObj['data'] = data
     elif action == 'cnn':
-        query = "select title, url, image from wordroot_cnn order by id desc limit 5"
+        query = "select id, title, image from wordroot_cnn order by id desc limit 5"
         cursor = db.sqlquery(query)
         result = cursor.fetchall()
         data = [[i[0], i[1], i[2]] for i in result]
+        respObj['success'] = True
+        respObj['data'] = data
+    elif action == 'get-article':
+        id = request.values['id']
+        query = "select title, image, content from wordroot_cnn where id = %s" % id
+        cursor = db.sqlquery(query)
+        result = cursor.fetchone()
+        data = {"title": result[0], "image": result[1], "content": result[2]}
         respObj['success'] = True
         respObj['data'] = data
     jsonstr = json.dumps(respObj)
