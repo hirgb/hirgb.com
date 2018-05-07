@@ -3,7 +3,7 @@
 
 from flask import Flask, request, make_response
 from stockfilter import *
-import json, db, random, tool
+import json, db, random, urllib3
 
 app = Flask(__name__)
 
@@ -359,9 +359,11 @@ def wordroot():
         respObj['data'] = data
     elif action == 'dict':
         w = request.values['w']
-        content = tool.get_content('http://dict-co.iciba.com/api/dictionary.php?type=json&key=1AAE3EEB9F6B6551EDD3D67E75991D22&w='+w, 'dict-co.iciba.com')
+        url = 'http://dict-co.iciba.com/api/dictionary.php?type=json&key=1AAE3EEB9F6B6551EDD3D67E75991D22&w='+w
+        http = urllib3.PoolManager()
+        r = http.request('GET', url)
         respObj['success'] = True
-        respObj['data'] = content
+        respObj['data'] = r.data.decode()
 
     jsonstr = json.dumps(respObj)
     resp = make_response(jsonstr)

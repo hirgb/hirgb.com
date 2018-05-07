@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="250e2a6c-e3dc-47dd-93e1-1f7f11f40c12" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/flask/tool.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/flask/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flask/tool.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -31,8 +30,8 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/flask/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="653">
-              <caret line="360" column="31" lean-forward="true" selection-start-line="360" selection-start-column="31" selection-end-line="360" selection-end-column="31" />
+            <state relative-caret-position="428">
+              <caret line="365" column="41" lean-forward="true" selection-start-line="365" selection-start-column="41" selection-end-line="365" selection-end-column="41" />
               <folding>
                 <element signature="e#35#82#0" expanded="true" />
               </folding>
@@ -150,6 +149,23 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/aws-myapp.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flask/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9000">
+          <caret line="360" column="31" lean-forward="true" selection-start-line="360" selection-start-column="31" selection-end-line="360" selection-end-column="31" />
+          <folding>
+            <element signature="e#35#82#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/aws-myapp.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
@@ -286,18 +302,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/flask/tool.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="400">
+          <caret line="30" column="21" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
           <folding>
-            <element signature="e#35#61#0" expanded="true" />
+            <element signature="e#129#583#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/flask/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="653">
-          <caret line="360" column="31" lean-forward="true" selection-start-line="360" selection-start-column="31" selection-end-line="360" selection-end-column="31" />
+        <state relative-caret-position="428">
+          <caret line="365" column="41" lean-forward="true" selection-start-line="365" selection-start-column="41" selection-end-line="365" selection-end-column="41" />
           <folding>
             <element signature="e#35#82#0" expanded="true" />
           </folding>
