@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="250e2a6c-e3dc-47dd-93e1-1f7f11f40c12" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/flask/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask/tool.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,29 +15,7 @@
     <favorites_list name="hirgb.com" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="aws-myapp.ini" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/aws-myapp.ini">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/flask/server.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="365" column="41" lean-forward="true" selection-start-line="365" selection-start-column="41" selection-end-line="365" selection-end-column="41" />
-              <folding>
-                <element signature="e#35#82#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -75,7 +51,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -92,6 +67,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -124,7 +100,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="28" width="1920" height="1018" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49942726" visible="true" weight="0.12658228" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -149,6 +124,23 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/aws-myapp.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flask/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9075">
+          <caret line="365" column="41" lean-forward="true" selection-start-line="365" selection-start-column="41" selection-end-line="365" selection-end-column="41" />
+          <folding>
+            <element signature="e#35#82#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/aws-myapp.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
@@ -286,13 +278,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/aws-myapp.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///mnt/ntfs-d/MyPersonalFiles/Hbuilder_app/root/other/niujin-dict1.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="500">
@@ -300,23 +285,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/flask/tool.py">
+    <entry file="file://$PROJECT_DIR$/flask/tool.py" />
+    <entry file="file://$PROJECT_DIR$/flask/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="30" column="21" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
+        <state relative-caret-position="553">
+          <caret line="382" column="47" selection-start-line="382" selection-start-column="47" selection-end-line="382" selection-end-column="47" />
           <folding>
-            <element signature="e#129#583#0" />
+            <element signature="e#35#82#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/flask/server.py">
+    <entry file="file://$PROJECT_DIR$/aws-myapp.ini">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="365" column="41" lean-forward="true" selection-start-line="365" selection-start-column="41" selection-end-line="365" selection-end-column="41" />
-          <folding>
-            <element signature="e#35#82#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="200">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
         </state>
       </provider>
     </entry>

@@ -3,6 +3,7 @@
 
 from flask import Flask, request, make_response
 from stockfilter import *
+from bs4 import BeautifulSoup, element
 import json, db, random, urllib3
 
 app = Flask(__name__)
@@ -362,8 +363,24 @@ def wordroot():
         url = 'http://dict-co.iciba.com/api/dictionary.php?type=json&key=1AAE3EEB9F6B6551EDD3D67E75991D22&w='+w
         http = urllib3.PoolManager()
         r = http.request('GET', url)
+        obj = json.loads(r.data.decode())
+
+        r = http.request('GET', 'http://www.youdict.com/ciyuan/s/' + w)
+        soup = BeautifulSoup(r.data.decode(), 'lxml')
+        article = soup.select('#article p')[0]
+        if article.get_text().find('：') > -1:
+            obj['root'] = article.get_text()
+        else:
+            obj['root'] = ''
+        # r = http.request('GET', 'http://www.youdict.com/root/search?wd=architecture')
+        # soup = BeautifulSoup(r.data.decode(), 'lxml')
+        # article = soup.select('#article')[0]
+        # for child in article.children:
+        #     if isinstance(child, element.Tag):
+        #         print(child.get_text())
+
         respObj['success'] = True
-        respObj['data'] = r.data.decode()
+        respObj['data'] = json.dumps(obj, ensure_ascii=False)
 
     jsonstr = json.dumps(respObj)
     resp = make_response(jsonstr)
