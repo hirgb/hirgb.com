@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			.mui-content {
+				background-color:#333333;
+				color: #EEEEEE;
+			}
+			
+			.title {
+				width: 100%;
+				position: absolute;
+				bottom: 0;
+				background: linear-gradient(0deg, rgba(204, 232, 207, 1), rgba(204, 232, 207, 0));
+			}
+			
+			.title p {
+				font-size: 20px;
+				font-weight: bold;
+			}
+			
+			.content p {
+				font-size: 24px;
+				line-height: 36px;
+				-webkit-user-select: auto;
+				/*text-align: justify;*/
+			}
+			
+			#search-word {
+				color: #DDDDDD;
+				font-size: 18px;
+			}
+			
+			#loading {
+				display: block;
+				width: 100%;
+				margin-top: 200px;
+			}
+			
+			#offCanvasContentScroll i {
+				font-style: normal;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable">
+			<!-- 菜单容器 -->
+			<aside id="offCanvasSide" class="mui-off-canvas-left">
+				<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<search-result :result=result></search-result>
+					</div>
+				</div>
+			</aside>
+			<!-- 主页面容器 -->
+			<div class="mui-inner-wrap">
+				<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<img id="loading" src="img/loading3.gif" />
+						<!-- 主界面具体展示内容 -->
+						<myarticle :article=article></myarticle>
+					</div>
+				</div>
+				<div class="mui-off-canvas-backdrop"></div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/z.js"></script>
+		<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script type="text/javascript">
+			mui.init();
+			var url = Z.getUrlParam().url ? Z.getUrlParam().url : 'http://aosabook.org/en/nginx.html';
+			Vue.component('myarticle', {
+				props: ['article'],
+				template: '<div class="mui-content-padded content" v-html="article.content"></div>'
+			});
+
+			Vue.component('search-result', {
+				props: ['result'],
+				template: '<div id="result" class="mui-content-padded" style="color: #8f8f94; font-size: 18px;"><b>{{ result.word }}</b> <span class="mui-icon mui-icon-star" style="font-size: 18px;" v-if="result.word"></span><br /><br />{{result.py_en}}<br />{{result.py_am}}<br /><br /><p v-html="result.translate" style="font-size: 18px;"></p><br />{{result.root}}</div>'
+			});
+
+			var article = new Vue({
+				el: '#offCanvasWrapper',
+				data: {
+					article: {
+						content: '',
+					},
+					result: {
+						word: '',
+						favorite: '',
+						py_en: '',
+						py_am: '',
+						translate: '在此页面中，可以点击单词进行查询。',
+						root: ''
+					}
+				}
+			});
+
+			
+			if(!mui.os.android) {
+				mui.getJSON('http://hirgb.com/wordroot?action=reader&url='+url, function(obj) {
+					if(obj.success) {
+						var w = document.querySelector('#offCanvasContentScroll').offsetWidth / 16 * 9;
+						article.article.content = modify_content(obj.data);
+						document.querySelector('#loading').style.display = 'none';
+					}
+				});
+			}
+
+			mui(document).on('tap', '#offCanvasContentScroll i', function(e) {
+				offCanvasWrapper.offCanvas('show');
+				var w = this.innerText.toLowerCase();
+				article.result.word = w;
+				article.result.py_en = '';
+				article.result.py_am = '';
+				article.result.root = '';
+				article.result.translate = '正在查找释义...';
+				mui.getJSON('http://hirgb.com/wordroot?action=dict&w=' + w, function(obj) {
+					var data = JSON.parse(obj.data);
+					try{
+						article.result.translate = data.symbols[0].parts.map(function(item, index, arr) {
+							return '<i>' + item.part + '</i>' + item.means.join() + '<br /><br />';
+						}).join('');
+						article.result.py_en = '英 : [ ' + data.symbols[0].ph_en + ' ]';
+						article.result.py_am = '美 : [ ' + data.symbols[0].ph_am + ' ]';
+						article.result.root = data.root;
+					}catch(e){
+						article.result.translate = '未找到释义';
+					}
+				});
+			});
+
+			//侧滑容器父节点
+			var offCanvasWrapper = mui('#offCanvasWrapper');
+			//主界面容器
+			var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
+			//菜单容器
+			var offCanvasSide = document.getElementById("offCanvasSide");
+			//菜单界面，‘关闭侧滑菜单’按钮的点击事件
+//			document.getElementById('article-area').addEventListener('tap', function() {
+//				offCanvasWrapper.offCanvas('close');
+//			});
+			//主界面和侧滑菜单界面均支持区域滚动；
+			mui('#offCanvasSideScroll').scroll();
+			mui('#offCanvasContentScroll').scroll();
+
+			//modify content
+			function modify_content(str) {
+				var a_word = str.split(' ');
+				a_word.forEach(function(item, index, obj) {
+					a_word[index] = item.replace(/([\w]{3,})/g, "<i>$1</i>");
+				});
+				return a_word.join(' ');
+			}
+		</script>
+	</body>
+
+</html>
