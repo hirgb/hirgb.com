@@ -4,7 +4,7 @@
 from flask import Flask, request, make_response
 from stockfilter import *
 from bs4 import BeautifulSoup, element
-import json, db, random, urllib3
+import json, db, random, urllib3, re
 
 app = Flask(__name__)
 
@@ -381,6 +381,17 @@ def wordroot():
 
         respObj['success'] = True
         respObj['data'] = json.dumps(obj, ensure_ascii=False)
+    elif action == 'reader':
+        url = request.values['url']
+        http = urllib3.PoolManager()
+        r = http.request('GET', url)
+        soup = BeautifulSoup(r.data.decode(), 'lxml')
+        data = ''
+        for tag in soup.find_all(re.compile("h1|h2|h3|h4|p")):
+            data += '<'+tag.name+'>'+tag.get_text()+'</'+tag.name+'>'
+
+        respObj['data'] = data.replace('\n', ' ')
+        respObj['success'] = True
 
     jsonstr = json.dumps(respObj)
     resp = make_response(jsonstr)
