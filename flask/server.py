@@ -382,16 +382,21 @@ def wordroot():
         respObj['success'] = True
         respObj['data'] = json.dumps(obj, ensure_ascii=False)
     elif action == 'reader':
-        url = request.values['url']
-        http = urllib3.PoolManager()
-        r = http.request('GET', url)
-        soup = BeautifulSoup(r.data.decode(), 'lxml')
-        data = ''
-        for tag in soup.find_all(re.compile("h1|h2|h3|h4|p")):
-            data += '<'+tag.name+'>'+tag.get_text()+'</'+tag.name+'>'
+        try:
+            url = request.values['url']
+            http = urllib3.PoolManager()
+            r = http.request('GET', url)
+            soup = BeautifulSoup(r.data.decode(), 'lxml')
+            data = ''
+            for tag in soup.find_all(re.compile("h1|h2|h3|h4|p")):
+                data += '<' + tag.name + '>' + tag.get_text() + '</' + tag.name + '>'
 
-        respObj['data'] = data.replace('\n', ' ')
-        respObj['success'] = True
+            respObj['data'] = data.replace('\n', ' ')
+            respObj['success'] = True
+        except:
+            respObj['message'] = '<h1>An error was occured.</h1>'
+            respObj['success'] = False
+
 
     jsonstr = json.dumps(respObj)
     resp = make_response(jsonstr)

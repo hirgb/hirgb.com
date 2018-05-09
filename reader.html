@@ -7,81 +7,130 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<style type="text/css">
-			.mui-content {
-				background-color:#333333;
-				color: #EEEEEE;
+			body{
+				background-color:#333;
 			}
-			
+			.mui-content {
+				background-color:#333;
+				color: #bbb;
+				height: 100%;
+			}
+
 			.title {
 				width: 100%;
 				position: absolute;
 				bottom: 0;
 				background: linear-gradient(0deg, rgba(204, 232, 207, 1), rgba(204, 232, 207, 0));
 			}
-			
+			.mui-title {
+				position: unset;
+				margin: unset;
+				color: unset;
+				padding: 10px 0;
+			}
+			.mui-title button{
+				font-size: 14px;
+				color: #999999;
+			}
 			.title p {
 				font-size: 20px;
 				font-weight: bold;
 			}
-			
+
 			.content p {
 				font-size: 24px;
 				line-height: 36px;
 				-webkit-user-select: auto;
 				/*text-align: justify;*/
 			}
-			
+			.mui-input-group {
+				background-color: transparent;
+			}
+			.mui-input-group:before, .mui-input-group:after, .mui-input-group .mui-input-row:after, .mui-table-view:before, .mui-table-view-cell:after, .mui-table-view:after {
+				height: 0px;
+				background-color: transparent;
+			}
+			.mui-table-view {
+				background-color: transparent;
+			}
 			#search-word {
 				color: #DDDDDD;
 				font-size: 18px;
 			}
-			
-			#loading {
-				display: block;
-				width: 100%;
-				margin-top: 200px;
-			}
-			
+
 			#offCanvasContentScroll i {
 				font-style: normal;
+			}
+
+			#main {
+				height: 100%;
 			}
 		</style>
 	</head>
 
 	<body>
-		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable">
-			<!-- 菜单容器 -->
-			<aside id="offCanvasSide" class="mui-off-canvas-left">
-				<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<search-result :result=result></search-result>
-					</div>
+		<div class="mui-content">
+			<div id="main">
+				<h2 style="font-size: 48px; font-weight: normal; text-align: center;color: #999999; margin: 50px 0 0 0;">Reader</h2>
+				<form class="mui-input-group" style="margin: 30px 0;">
+				    <div class="mui-input-row">
+				    	<input id="url-input" type="text" class="mui-input-clear" style="text-align: center;" placeholder="请输入文档网址">
+				    </div>
+				    <div class="mui-button-row">
+				        <button id="convert-btn" type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-grey mui-btn-outlined">convert</button>
+				    </div>
+				</form>
+				<div class="mui-content-padded">
+					<h4 style="text-align: center; margin: 30px 0; font-weight: normal; font-size: 32px; color: #999999;">cached document</h4>
+					<ul class="mui-table-view">
+						<article-item v-for="item in article_items" :article_item=item></article-item>
+					</ul>
 				</div>
-			</aside>
-			<!-- 主页面容器 -->
-			<div class="mui-inner-wrap">
-				<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<img id="loading" src="img/loading3.gif" />
-						<!-- 主界面具体展示内容 -->
-						<myarticle :article=article></myarticle>
+			</div>
+			<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable">
+				<!-- 菜单容器 -->
+				<aside id="offCanvasSide" class="mui-off-canvas-left">
+					<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<search-result :result=result></search-result>
+						</div>
 					</div>
+				</aside>
+				<!-- 主页面容器 -->
+				<div class="mui-inner-wrap">
+					<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<h2 class="mui-title">
+								<button id="download-btn" class="mui-btn mui-btn-outlined mui-btn-grey"><span  class="mui-icon mui-icon-download">CACHE</span></button>
+								<button id="delete-btn" class="mui-btn mui-btn-outlined mui-btn-grey"><span class="mui-icon mui-icon-trash">DELETE</span></button>
+							</h2>
+							<!-- 主界面具体展示内容 -->
+							<myarticle :article=article></myarticle>
+						</div>
+					</div>
+					<div class="mui-off-canvas-backdrop"></div>
 				</div>
-				<div class="mui-off-canvas-backdrop"></div>
 			</div>
 		</div>
 		<script src="js/mui.min.js"></script>
-		<script src="js/z.js"></script>
+		<!--<script src="js/z.js"></script>-->
 		<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
 		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 		<script type="text/javascript">
 			mui.init();
-			var url = Z.getUrlParam().url ? Z.getUrlParam().url : 'http://aosabook.org/en/nginx.html';
+
+			document.querySelector('#url-input').value = 'http://aosabook.org/en/nginx.html';
+			document.querySelector('#offCanvasWrapper').style.height = '0px';
+
+
+			Vue.component('article-item', {
+				props: ['article_item'],
+				template: '<li class="mui-table-view-cell" style="text-align: center; color: #999999; font-size: 28px;"><span>{{article_item.title}}</span></li>'
+			});
 			Vue.component('myarticle', {
 				props: ['article'],
 				template: '<div class="mui-content-padded content" v-html="article.content"></div>'
 			});
-
 			Vue.component('search-result', {
 				props: ['result'],
 				template: '<div id="result" class="mui-content-padded" style="color: #8f8f94; font-size: 18px;"><b>{{ result.word }}</b> <span class="mui-icon mui-icon-star" style="font-size: 18px;" v-if="result.word"></span><br /><br />{{result.py_en}}<br />{{result.py_am}}<br /><br /><p v-html="result.translate" style="font-size: 18px;"></p><br />{{result.root}}</div>'
@@ -103,17 +152,41 @@
 					}
 				}
 			});
+			var article_list = new Vue({
+				el: '#main',
+				data: {
+					article_items: []
+				}
+			});
 
-			
-			if(!mui.os.android) {
-				mui.getJSON('http://hirgb.com/wordroot?action=reader&url='+url, function(obj) {
-					if(obj.success) {
-						var w = document.querySelector('#offCanvasContentScroll').offsetWidth / 16 * 9;
-						article.article.content = modify_content(obj.data);
-						document.querySelector('#loading').style.display = 'none';
+			if (localStorage) {
+				Object.keys(localStorage).forEach(function (item, index, arr) {
+					if (item.indexOf('reader-') > -1) {
+						article_list.article_items.push({title:item});
 					}
 				});
 			}
+
+			mui(document).on('tap', '#convert-btn', function () {
+				var url = document.querySelector('#url-input').value;
+				var btn = this;
+				if(!mui.os.android && url && /^http/.test(url)) {
+					mui(btn).button('loading');
+					mui.getJSON('http://hirgb.com/wordroot?action=reader&url='+url, function(obj) {
+						if(obj.success) {
+							mui(btn).button('reset');
+							article.article.content = modify_content(obj.data);
+							document.querySelector('#main').style.display = 'none';
+							document.querySelector('#offCanvasWrapper').style.height = '100%';
+						} else {
+							mui(btn).button('reset');
+							article.article.content = obj.message;
+							document.querySelector('#main').style.display = 'none';
+							document.querySelector('#offCanvasWrapper').style.height = '100%';
+						}
+					});
+				}
+			});
 
 			mui(document).on('tap', '#offCanvasContentScroll i', function(e) {
 				offCanvasWrapper.offCanvas('show');
@@ -138,16 +211,35 @@
 				});
 			});
 
+			mui(document).on('tap', '#main ul li', function () {
+				console.log(this.querySelector('span').innerText);
+				article.article.content = localStorage.getItem(this.querySelector('span').innerText);
+				document.querySelector('#main').style.display = 'none';
+				document.querySelector('#offCanvasWrapper').style.height = '100%';
+			});
+
+			mui(document).on('tap', '#download-btn', function () {
+				var title = 'reader-' + document.querySelector('h1').innerText;
+				var content = document.querySelector('.content').innerHTML;
+				localStorage.setItem(title, content);
+				alert('download success');
+			});
+
+			mui(document).on('tap', '#delete-btn', function () {
+				var r = confirm('Are sure to delete this document?');
+				if (r) {
+					localStorage.removeItem('reader-' + document.querySelector('h1').innerText);
+					alert('delete success');
+				}
+			});
+
+
 			//侧滑容器父节点
 			var offCanvasWrapper = mui('#offCanvasWrapper');
 			//主界面容器
 			var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
 			//菜单容器
 			var offCanvasSide = document.getElementById("offCanvasSide");
-			//菜单界面，‘关闭侧滑菜单’按钮的点击事件
-//			document.getElementById('article-area').addEventListener('tap', function() {
-//				offCanvasWrapper.offCanvas('close');
-//			});
 			//主界面和侧滑菜单界面均支持区域滚动；
 			mui('#offCanvasSideScroll').scroll();
 			mui('#offCanvasContentScroll').scroll();
