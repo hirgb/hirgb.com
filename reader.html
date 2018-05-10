@@ -65,6 +65,15 @@
 			#main {
 				height: 100%;
 			}
+			#myword .mui-table-view-cell.mui-collapse .mui-collapse-content {
+				background: #272727;
+			}
+			#myword .mui-table-view-cell.mui-active {
+			    background-color: #404040;
+			}
+			#myword .mui-active {
+				background: #272727;
+			}
 		</style>
 	</head>
 
@@ -79,6 +88,9 @@
 				    <div class="mui-button-row">
 				        <button id="convert-btn" type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-grey mui-btn-outlined">convert</button>
 				    </div>
+				    <div class="mui-button-row" style="text-align: center; margin-top: 50px;">
+				    	<a id="get-myword" href="#" style="color: #999999;">查看生词本</a>
+				    </div>
 				</form>
 				<div class="mui-content-padded">
 					<h4 style="text-align: center; margin: 30px 0; font-weight: normal; font-size: 32px; color: #999999;">cached document</h4>
@@ -86,6 +98,11 @@
 						<article-item v-for="item in article_items" :article_item=item></article-item>
 					</ul>
 				</div>
+			</div>
+			<div id="myword" style="display: none;">
+				<ul class="mui-table-view">
+					<myword-list v-for="item in items" :word_obj=item></myword-list>
+				</ul>
 			</div>
 			<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable">
 				<!-- 菜单容器 -->
@@ -113,7 +130,6 @@
 			</div>
 		</div>
 		<script src="js/mui.min.js"></script>
-		<!--<script src="js/z.js"></script>-->
 		<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
 		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 		<script type="text/javascript">
@@ -133,7 +149,35 @@
 			});
 			Vue.component('search-result', {
 				props: ['result'],
-				template: '<div id="result" class="mui-content-padded" style="color: #8f8f94; font-size: 18px;"><b>{{ result.word }}</b> <span class="mui-icon mui-icon-star" style="font-size: 18px;" v-if="result.word"></span><br /><br />{{result.py_en}}<br />{{result.py_am}}<br /><br /><p v-html="result.translate" style="font-size: 18px;"></p><br />{{result.root}}</div>'
+				template: `
+				<div id="result" class="mui-content-padded" style="color: #8f8f94; font-size: 18px;">
+				<b style="font-size:32px">{{ result.word }}</b> <span id="get-word-star" class="mui-icon mui-icon-star" style="font-size: 32px;" v-if="result.word"></span>
+				<br /><br />
+				{{result.py_en}}
+				<br />
+				{{result.py_am}}
+				<br /><br />
+				<p v-html="result.translate" style="font-size: 18px;"></p>
+				<br />
+				{{result.root}}
+				</div>`
+			});
+			Vue.component('myword-list', {
+				props: ['word_obj'],
+				template: `
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">{{ word_obj.word }}</a>
+		            <div class="mui-collapse-content">
+		                {{word_obj.py_en}}
+						<br />
+						{{word_obj.py_am}}
+						<br /><br />
+						<p v-html="word_obj.translate" style="font-size: 18px;"></p>
+						<br />
+						{{word_obj.root}}
+		            </div>
+				</li>
+				`
 			});
 
 			var article = new Vue({
@@ -158,7 +202,13 @@
 					article_items: []
 				}
 			});
-
+			
+			var myword = new Vue({
+				el: '#myword',
+				data: {
+					items: []
+				}
+			});
 			if (localStorage) {
 				Object.keys(localStorage).forEach(function (item, index, arr) {
 					if (item.indexOf('reader-') > -1) {
@@ -187,7 +237,38 @@
 					});
 				}
 			});
-
+			
+			mui(document).on('tap', '#get-word-star', function () {
+				var _this = this;
+				var obj = {
+						word:article.result.word,
+						translate:article.result.translate,
+						py_en:article.result.py_en,
+						py_am:article.result.py_am,
+						root:article.result.root
+					};
+				if (localStorage.getItem('myword')) {
+					var myword = JSON.parse(localStorage.getItem('myword'));
+					var existed = false;
+					myword.forEach(function (item, index, arr) {
+						if (item.word == obj.word) {
+							existed = true;
+						}
+					});
+					if (existed) {
+						star_toggle('on');
+						mui.toast('已存在');
+					} else{
+						star_toggle('on');
+						myword.push(obj);
+						mui.toast('已加入');
+						localStorage.setItem('myword', JSON.stringify(myword));
+					}
+				} else{
+					localStorage.setItem('myword', JSON.stringify([obj]));
+				}
+			});
+			
 			mui(document).on('tap', '#offCanvasContentScroll i', function(e) {
 				offCanvasWrapper.offCanvas('show');
 				var w = this.innerText.toLowerCase();
@@ -196,9 +277,10 @@
 				article.result.py_am = '';
 				article.result.root = '';
 				article.result.translate = '正在查找释义...';
-				mui.getJSON('http://hirgb.com/wordroot?action=dict&w=' + w, function(obj) {
+				mui.getJSON('/wordroot?action=dict&w=' + w, function(obj) {
 					var data = JSON.parse(obj.data);
 					try{
+						star_toggle('off');
 						article.result.translate = data.symbols[0].parts.map(function(item, index, arr) {
 							return '<i>' + item.part + '</i>' + item.means.join() + '<br /><br />';
 						}).join('');
@@ -210,7 +292,13 @@
 					}
 				});
 			});
-
+			
+			mui(document).on('tap', '#get-myword', function () {
+				document.querySelector('#main').style.display = 'none';
+				document.querySelector('#myword').style.display = 'block';
+				myword.items = JSON.parse(localStorage.getItem('myword'));
+			});
+			
 			mui(document).on('tap', '#main ul li', function () {
 				console.log(this.querySelector('span').innerText);
 				article.article.content = localStorage.getItem(this.querySelector('span').innerText);
@@ -253,11 +341,18 @@
 					return a.replace(/([\w]{3,})/g, "<i>$1</i>");
 				});
 				return str
-				// var a_word = str.split(' ');
-				// a_word.forEach(function(item, index, obj) {
-				// 	a_word[index] = item.replace(/([\w]{3,})/g, "<i>$1</i>");
-				// });
-				// return a_word.join(' ');
+			}
+			
+			// flag = on, off
+			function star_toggle (flag) {
+				var star = document.querySelector('#get-word-star');
+				if (flag === 'on') {
+					star.classList.remove('mui-icon-star');
+					star.classList.add('mui-icon-star-filled');
+				} else{
+					star.classList.remove('mui-icon-star-filled');
+					star.classList.add('mui-icon-star');
+				}
 			}
 		</script>
 	</body>
