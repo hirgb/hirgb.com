@@ -388,9 +388,12 @@ def wordroot():
             r = http.request('GET', url)
             soup = BeautifulSoup(r.data.decode(), 'lxml')
             data = ''
-            for tag in soup.find_all(re.compile("h1|h2|h3|h4|p")):
-                data += '<' + tag.name + '>' + tag.get_text() + '</' + tag.name + '>'
-
+            for tag in soup.body.find_all(re.compile("^h1$|^h2$|^h3$|^h4$|^p$|^img$")):
+                if tag.name == 'img':
+                    data += '<' + tag.name + ' src="' + tag['src'] + '" style="max-width: 100%" />'
+                else:
+                    data += '<' + tag.name + '>' + tag.get_text() + '</' + tag.name + '>'
+                # print(tag.name)
             respObj['data'] = data.replace('\n', ' ')
             respObj['success'] = True
         except:

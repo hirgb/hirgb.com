@@ -172,7 +172,7 @@
 				var btn = this;
 				if(!mui.os.android && url && /^http/.test(url)) {
 					mui(btn).button('loading');
-					mui.getJSON('http://hirgb.com/wordroot?action=reader&url='+url, function(obj) {
+					mui.getJSON('/wordroot?action=reader&url='+url, function(obj) {
 						if(obj.success) {
 							mui(btn).button('reset');
 							article.article.content = modify_content(obj.data);
@@ -246,11 +246,18 @@
 
 			//modify content
 			function modify_content(str) {
-				var a_word = str.split(' ');
-				a_word.forEach(function(item, index, obj) {
-					a_word[index] = item.replace(/([\w]{3,})/g, "<i>$1</i>");
+				str = str.replace(/<p>.*?<\/p>/g, function(a, b, c){
+					return a.replace(/([\w]{3,})/g, "<i>$1</i>");
 				});
-				return a_word.join(' ');
+				str = str.replace(/<h\d>.*?<\/h\d>/g, function(a, b, c){
+					return a.replace(/([\w]{3,})/g, "<i>$1</i>");
+				});
+				return str
+				// var a_word = str.split(' ');
+				// a_word.forEach(function(item, index, obj) {
+				// 	a_word[index] = item.replace(/([\w]{3,})/g, "<i>$1</i>");
+				// });
+				// return a_word.join(' ');
 			}
 		</script>
 	</body>

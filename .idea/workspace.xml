@@ -16,7 +16,20 @@
     <favorites_list name="hirgb.com" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/flask/server.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="428">
+              <caret line="392" column="94" selection-start-line="392" selection-start-column="94" selection-end-line="392" selection-end-column="94" />
+              <folding>
+                <element signature="e#35#82#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -101,6 +114,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="28" width="1920" height="1018" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49942726" visible="true" weight="0.12658228" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -306,8 +320,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/flask/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="396" column="28" selection-start-line="396" selection-start-column="28" selection-end-line="396" selection-end-column="28" />
+        <state relative-caret-position="428">
+          <caret line="392" column="94" selection-start-line="392" selection-start-column="94" selection-end-line="392" selection-end-column="94" />
           <folding>
             <element signature="e#35#82#0" expanded="true" />
           </folding>
