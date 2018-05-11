@@ -22,26 +22,17 @@
 				bottom: 0;
 				background: linear-gradient(0deg, rgba(204, 232, 207, 1), rgba(204, 232, 207, 0));
 			}
-			.mui-title {
-				position: unset;
-				margin: unset;
-				color: unset;
-				padding: 10px 0;
-			}
-			.mui-title button{
-				font-size: 14px;
-				color: #999999;
-			}
 			.title p {
 				font-size: 20px;
 				font-weight: bold;
 			}
-
+			.content {
+				margin-top: 50px;
+			}
 			.content p {
 				font-size: 24px;
 				line-height: 36px;
 				-webkit-user-select: auto;
-				/*text-align: justify;*/
 			}
 			.mui-input-group {
 				background-color: transparent;
@@ -50,9 +41,7 @@
 				height: 0px;
 				background-color: transparent;
 			}
-			.mui-table-view {
-				background-color: transparent;
-			}
+			
 			#search-word {
 				color: #DDDDDD;
 				font-size: 18px;
@@ -65,10 +54,38 @@
 			#main {
 				height: 100%;
 			}
-			#myword .mui-table-view-cell.mui-collapse .mui-collapse-content {
-				background: #272727;
+			.mui-table-view {
+				background-color: transparent;
 			}
-			#myword .mui-table-view-cell.mui-active {
+			#myword .mui-table-view {
+				margin-top: 50px;
+			}
+			#myword .mui-table-view-cell {
+				font-size: 24px;
+				line-height: 30px;
+			}
+			#myword .mui-table-view-cell p {
+				font-size: 24px;
+				line-height: 30px;
+			}
+			.mui-bar {
+				background-color: #333333;
+			    -webkit-box-shadow: unset; 
+			    box-shadow: unset;
+			    text-align: center;
+			}
+			.mui-bar button{
+				font-size: 14px;
+				color: #999999;
+			}
+			.mui-bar-nav {
+			    -webkit-box-shadow: unset; 
+			    box-shadow: unset; 
+			}
+			#myword .mui-table-view-cell .mui-collapse-content {
+				background-color: transparent;
+			}
+			#myword .mui-table-view-cell .mui-active {
 			    background-color: #404040;
 			}
 			#myword .mui-active {
@@ -100,6 +117,9 @@
 				</div>
 			</div>
 			<div id="myword" style="display: none;">
+				<header class="mui-bar mui-bar-nav">
+				    <a class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+				</header>
 				<ul class="mui-table-view">
 					<myword-list v-for="item in items" :word_obj=item></myword-list>
 				</ul>
@@ -117,10 +137,11 @@
 				<div class="mui-inner-wrap">
 					<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
 						<div class="mui-scroll">
-							<h2 class="mui-title">
-								<button id="download-btn" class="mui-btn mui-btn-outlined mui-btn-grey"><span  class="mui-icon mui-icon-download">CACHE</span></button>
-								<button id="delete-btn" class="mui-btn mui-btn-outlined mui-btn-grey"><span class="mui-icon mui-icon-trash">DELETE</span></button>
-							</h2>
+							<header class="mui-bar mui-bar-nav">
+							    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+							    <button id="download-btn" class="mui-btn mui-btn-outlined mui-btn-grey"><span  class="mui-icon mui-icon-download">CACHE</span></button>
+							    <button id="delete-btn" class="mui-btn mui-btn-outlined mui-btn-grey"><span class="mui-icon mui-icon-trash">DELETE</span></button>
+							</header>
 							<!-- 主界面具体展示内容 -->
 							<myarticle :article=article></myarticle>
 						</div>
@@ -172,7 +193,7 @@
 						<br />
 						{{word_obj.py_am}}
 						<br /><br />
-						<p v-html="word_obj.translate" style="font-size: 18px;"></p>
+						<p v-html="word_obj.translate"></p>
 						<br />
 						{{word_obj.root}}
 		            </div>
@@ -202,13 +223,13 @@
 					article_items: []
 				}
 			});
-			
 			var myword = new Vue({
 				el: '#myword',
 				data: {
 					items: []
 				}
 			});
+			
 			if (localStorage) {
 				Object.keys(localStorage).forEach(function (item, index, arr) {
 					if (item.indexOf('reader-') > -1) {
@@ -222,7 +243,7 @@
 				var btn = this;
 				if(!mui.os.android && url && /^http/.test(url)) {
 					mui(btn).button('loading');
-					mui.getJSON('/wordroot?action=reader&url='+url, function(obj) {
+					mui.getJSON('http://hirgb.com/wordroot?action=reader&url='+url, function(obj) {
 						if(obj.success) {
 							mui(btn).button('reset');
 							article.article.content = modify_content(obj.data);
@@ -277,7 +298,7 @@
 				article.result.py_am = '';
 				article.result.root = '';
 				article.result.translate = '正在查找释义...';
-				mui.getJSON('/wordroot?action=dict&w=' + w, function(obj) {
+				mui.getJSON('http://hirgb.com/wordroot?action=dict&w=' + w, function(obj) {
 					var data = JSON.parse(obj.data);
 					try{
 						star_toggle('off');
@@ -295,14 +316,15 @@
 			
 			mui(document).on('tap', '#get-myword', function () {
 				document.querySelector('#main').style.display = 'none';
+				document.querySelector('#offCanvasWrapper').style.height = '0px';
 				document.querySelector('#myword').style.display = 'block';
 				myword.items = JSON.parse(localStorage.getItem('myword'));
 			});
 			
 			mui(document).on('tap', '#main ul li', function () {
-				console.log(this.querySelector('span').innerText);
 				article.article.content = localStorage.getItem(this.querySelector('span').innerText);
 				document.querySelector('#main').style.display = 'none';
+				document.querySelector('#myword').style.display = 'none';
 				document.querySelector('#offCanvasWrapper').style.height = '100%';
 			});
 
@@ -320,8 +342,14 @@
 					alert('delete success');
 				}
 			});
-
-
+			
+			mui(document).on('tap', 'header .mui-icon-left-nav', function () {
+				document.querySelector('#myword').style.display = 'none';
+				document.querySelector('#offCanvasWrapper').style.height = '0px';
+				document.querySelector('#main').style.display = 'block';
+			});
+			
+			
 			//侧滑容器父节点
 			var offCanvasWrapper = mui('#offCanvasWrapper');
 			//主界面容器
