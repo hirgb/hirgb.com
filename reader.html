@@ -41,7 +41,20 @@
 				height: 0px;
 				background-color: transparent;
 			}
-			
+			.mui-bar {
+				background-color: #333333;
+			    -webkit-box-shadow: unset; 
+			    box-shadow: unset;
+			    text-align: center;
+			}
+			.mui-bar button{
+				font-size: 14px;
+				color: #999999;
+			}
+			.mui-bar-nav {
+			    -webkit-box-shadow: unset; 
+			    box-shadow: unset; 
+			}
 			#search-word {
 				color: #DDDDDD;
 				font-size: 18px;
@@ -68,20 +81,6 @@
 				font-size: 24px;
 				line-height: 30px;
 			}
-			.mui-bar {
-				background-color: #333333;
-			    -webkit-box-shadow: unset; 
-			    box-shadow: unset;
-			    text-align: center;
-			}
-			.mui-bar button{
-				font-size: 14px;
-				color: #999999;
-			}
-			.mui-bar-nav {
-			    -webkit-box-shadow: unset; 
-			    box-shadow: unset; 
-			}
 			#myword .mui-table-view-cell .mui-collapse-content {
 				background-color: transparent;
 			}
@@ -90,6 +89,18 @@
 			}
 			#myword .mui-active {
 				background: #272727;
+			}
+			#result {
+				color: #8f8f94;
+				font-size: 24px;
+				line-height: 32px;
+			}
+			#result p {
+				font-size: 24px;
+				line-height: 32px;
+			}
+			#word-count {
+			    padding: 10px;
 			}
 		</style>
 	</head>
@@ -119,6 +130,7 @@
 			<div id="myword" style="display: none;">
 				<header class="mui-bar mui-bar-nav">
 				    <a class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+				    <span id="word-count" class="mui-pull-right"></span>
 				</header>
 				<ul class="mui-table-view">
 					<myword-list v-for="item in items" :word_obj=item></myword-list>
@@ -156,29 +168,28 @@
 		<script type="text/javascript">
 			mui.init();
 
-			document.querySelector('#url-input').value = 'http://aosabook.org/en/nginx.html';
 			document.querySelector('#offCanvasWrapper').style.height = '0px';
 
 
 			Vue.component('article-item', {
 				props: ['article_item'],
-				template: '<li class="mui-table-view-cell" style="text-align: center; color: #999999; font-size: 28px;"><span>{{article_item.title}}</span></li>'
+				template: `<li class="mui-table-view-cell" style="text-align: center; color: #999999; font-size: 28px;"><span>{{article_item.title}}</span></li>`
 			});
 			Vue.component('myarticle', {
 				props: ['article'],
-				template: '<div class="mui-content-padded content" v-html="article.content"></div>'
+				template: `<div class="mui-content-padded content" v-html="article.content"></div>`
 			});
 			Vue.component('search-result', {
 				props: ['result'],
 				template: `
-				<div id="result" class="mui-content-padded" style="color: #8f8f94; font-size: 18px;">
+				<div id="result" class="mui-content-padded">
 				<b style="font-size:32px">{{ result.word }}</b> <span id="get-word-star" class="mui-icon mui-icon-star" style="font-size: 32px;" v-if="result.word"></span>
 				<br /><br />
 				{{result.py_en}}
 				<br />
 				{{result.py_am}}
 				<br /><br />
-				<p v-html="result.translate" style="font-size: 18px;"></p>
+				<p v-html="result.translate"></p>
 				<br />
 				{{result.root}}
 				</div>`
@@ -230,13 +241,7 @@
 				}
 			});
 			
-			if (localStorage) {
-				Object.keys(localStorage).forEach(function (item, index, arr) {
-					if (item.indexOf('reader-') > -1) {
-						article_list.article_items.push({title:item});
-					}
-				});
-			}
+			get_article_list();
 
 			mui(document).on('tap', '#convert-btn', function () {
 				var url = document.querySelector('#url-input').value;
@@ -319,6 +324,7 @@
 				document.querySelector('#offCanvasWrapper').style.height = '0px';
 				document.querySelector('#myword').style.display = 'block';
 				myword.items = JSON.parse(localStorage.getItem('myword'));
+				document.querySelector('#word-count').innerText = 'Total: ' + myword.items.length;
 			});
 			
 			mui(document).on('tap', '#main ul li', function () {
@@ -347,6 +353,7 @@
 				document.querySelector('#myword').style.display = 'none';
 				document.querySelector('#offCanvasWrapper').style.height = '0px';
 				document.querySelector('#main').style.display = 'block';
+				get_article_list();
 			});
 			
 			
@@ -380,6 +387,18 @@
 				} else{
 					star.classList.remove('mui-icon-star-filled');
 					star.classList.add('mui-icon-star');
+				}
+			}
+			
+			//
+			function get_article_list() {
+				if (localStorage) {
+					article_list.article_items.length = 0;
+					Object.keys(localStorage).forEach(function (item, index, arr) {
+						if (item.indexOf('reader-') > -1) {
+							article_list.article_items.push({title:item});
+						}
+					});
 				}
 			}
 		</script>
