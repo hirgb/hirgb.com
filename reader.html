@@ -43,7 +43,7 @@
 			}
 			.mui-bar {
 				background-color: #333333;
-			    -webkit-box-shadow: unset; 
+			    -webkit-box-shadow: unset;
 			    box-shadow: unset;
 			    text-align: center;
 			}
@@ -52,8 +52,8 @@
 				color: #999999;
 			}
 			.mui-bar-nav {
-			    -webkit-box-shadow: unset; 
-			    box-shadow: unset; 
+			    -webkit-box-shadow: unset;
+			    box-shadow: unset;
 			}
 			#search-word {
 				color: #DDDDDD;
@@ -240,7 +240,7 @@
 					items: []
 				}
 			});
-			
+
 			get_article_list();
 
 			mui(document).on('tap', '#convert-btn', function () {
@@ -248,7 +248,7 @@
 				var btn = this;
 				if(!mui.os.android && url && /^http/.test(url)) {
 					mui(btn).button('loading');
-					mui.getJSON('http://hirgb.com/wordroot?action=reader&url='+url, function(obj) {
+					mui.getJSON('/wordroot?action=reader&url='+url, function(obj) {
 						if(obj.success) {
 							mui(btn).button('reset');
 							article.article.content = modify_content(obj.data);
@@ -263,7 +263,7 @@
 					});
 				}
 			});
-			
+
 			mui(document).on('tap', '#get-word-star', function () {
 				var _this = this;
 				var obj = {
@@ -294,7 +294,7 @@
 					localStorage.setItem('myword', JSON.stringify([obj]));
 				}
 			});
-			
+
 			mui(document).on('tap', '#offCanvasContentScroll i', function(e) {
 				offCanvasWrapper.offCanvas('show');
 				var w = this.innerText.toLowerCase();
@@ -318,7 +318,7 @@
 					}
 				});
 			});
-			
+
 			mui(document).on('tap', '#get-myword', function () {
 				document.querySelector('#main').style.display = 'none';
 				document.querySelector('#offCanvasWrapper').style.height = '0px';
@@ -326,7 +326,7 @@
 				myword.items = JSON.parse(localStorage.getItem('myword'));
 				document.querySelector('#word-count').innerText = 'Total: ' + myword.items.length;
 			});
-			
+
 			mui(document).on('tap', '#main ul li', function () {
 				article.article.content = localStorage.getItem(this.querySelector('span').innerText);
 				document.querySelector('#main').style.display = 'none';
@@ -348,15 +348,15 @@
 					alert('delete success');
 				}
 			});
-			
+
 			mui(document).on('tap', 'header .mui-icon-left-nav', function () {
 				document.querySelector('#myword').style.display = 'none';
 				document.querySelector('#offCanvasWrapper').style.height = '0px';
 				document.querySelector('#main').style.display = 'block';
 				get_article_list();
 			});
-			
-			
+
+
 			//侧滑容器父节点
 			var offCanvasWrapper = mui('#offCanvasWrapper');
 			//主界面容器
@@ -377,7 +377,7 @@
 				});
 				return str
 			}
-			
+
 			// flag = on, off
 			function star_toggle (flag) {
 				var star = document.querySelector('#get-word-star');
@@ -389,7 +389,7 @@
 					star.classList.add('mui-icon-star');
 				}
 			}
-			
+
 			//
 			function get_article_list() {
 				if (localStorage) {

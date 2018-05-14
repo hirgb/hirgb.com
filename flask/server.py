@@ -4,7 +4,7 @@
 from flask import Flask, request, make_response
 from stockfilter import *
 from bs4 import BeautifulSoup, element
-import json, db, random, urllib3, re
+import json, db, random, urllib3, re, chardet
 
 app = Flask(__name__)
 
@@ -386,7 +386,8 @@ def wordroot():
             url = request.values['url']
             http = urllib3.PoolManager()
             r = http.request('GET', url)
-            soup = BeautifulSoup(r.data.decode(), 'lxml')
+            # print(chardet.detect(r.data)['encoding'])
+            soup = BeautifulSoup(r.data.decode(chardet.detect(r.data)['encoding']), 'lxml')
             data = ''
             for tag in soup.body.find_all(re.compile("^h1$|^h2$|^h3$|^h4$|^p$|^img$")):
                 if tag.name == 'img':
