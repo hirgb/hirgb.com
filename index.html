@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/mdui/0.3.0/css/mdui.min.css">
     <style media="screen">
         * {
             margin: 0;
@@ -20,7 +21,7 @@
         body {
             /*position: absolute;*/
             background-color: #666;
-            background-image: url(https://cn.bing.com/az/hprichbg/rb/StormyCrater_ZH-CN7380963684_1920x1080.jpg);
+            /*background-image: url(https://cn.bing.com/az/hprichbg/rb/StormyCrater_ZH-CN7380963684_1920x1080.jpg);*/
             /*background-image: url(https://cn.bing.com/az/hprichbg/rb/WineDay_ZH-CN9852912150_1920x1080.jpg);*/
             height: 100%;
             width: 100%;
@@ -74,6 +75,35 @@
       <span id="logo">hirgb</span>
       <input id="search-input" type="text" name="" value="">
     </div>
+
+    <script src="//cdn.bootcss.com/mdui/0.3.0/js/mdui.min.js"></script>
+    <script>
+      var $ = mdui.JQ;
+      $.ajax({
+        url: '/hirgb',
+        dataType: 'json',
+        method: 'GET',
+        data: {action: 'bgimg'},
+        success: function (data){
+          document.querySelector('body').style.backgroundImage = "url('"+ data.data +"')";
+        }
+      });
+
+      document.addEventListener('keydown',function(event){
+              if(event.keyCode == 13 && event.ctrlKey){
+                window.open('http://image.baidu.com/search/index?tn=baiduimage&word=' + document.getElementById('search-input').value);
+              }
+              else if(event.keyCode == 13 && event.altKey){
+                window.open('https://fanyi.baidu.com/#zh/en/' + document.getElementById('search-input').value);
+              }
+              else if(event.keyCode == 13){
+                window.open('https://www.google.com/search?q=' + document.getElementById('search-input').value);
+              }
+              else if(event.keyCode == 89 && event.ctrlKey){
+                document.getElementById('search-input').select();
+              }
+          });
+    </script>
 </body>
 
 </html>
