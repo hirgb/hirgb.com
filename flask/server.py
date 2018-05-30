@@ -407,5 +407,23 @@ def wordroot():
     resp.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return resp
 
+
+@app.route('/hirgb', methods=['GET'])
+def hirgb():
+    action = request.values['action']
+    respObj = {'success': False, 'message': '', 'data': ''}
+    if action == 'bgimg':
+        query = "select url from hirgb_bingbg order by id desc limit 1"
+        cursor = db.sqlquery(query)
+        data = cursor.fetchone()[0]
+        respObj['success'] = True
+        respObj['data'] = data
+
+
+    jsonstr = json.dumps(respObj)
+    resp = make_response(jsonstr)
+    resp.headers['Content-Type'] = 'text/plain; charset=utf-8'
+    return resp
+
 if __name__ == '__main__':
     app.run()
