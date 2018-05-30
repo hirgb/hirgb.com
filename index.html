@@ -3,221 +3,77 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <title>WAVELAB</title>
-    <link rel="stylesheet" href="//cdn.bootcss.com/mdui/0.3.0/css/mdui.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/materialize.css">
-    <script src="//cdn.bootcss.com/echarts/4.0.4/echarts.min.js"></script>
-    <script src="//cdn.bootcss.com/mdui/0.3.0/js/mdui.min.js"></script>
-    <style>
-        .mdui-row {
-            margin: 0px 10px;
+    <title></title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
         }
 
-        .mdui-row>div {
-            margin: 15px 0;
+        html,
+        body {
+            height: 100%;
+            position: relative;
+            background-color: #666;
         }
 
-        .mdui-card {
-            margin: 0px 5px;
-            /*box-shadow: none;*/
+        body {
+            /*position: absolute;*/
+            background-color: #666;
+            background-image: url(https://cn.bing.com/az/hprichbg/rb/StormyCrater_ZH-CN7380963684_1920x1080.jpg);
+            /*background-image: url(https://cn.bing.com/az/hprichbg/rb/WineDay_ZH-CN9852912150_1920x1080.jpg);*/
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            /*z-index: 0;*/
         }
-
-        .index-card {
-            height: 200px;
+        #main {
+          width: 800px;
+          height: 100%;
+          margin: 0 auto;
+          border: none;
+          /*z-index: 1;*/
         }
-
-        .indicator-card {
-            height: 350px;
-            padding: 15px;
-            box-shadow: 0 6px 20px 0 rgba(100, 100, 100, 0.2);
+        #main:hover {
+          /*background-color: rgba(0,0,0,.5);*/
+        }
+        #search-input {
+          display: block;
+          width: 80%;
+          height: 48px;
+          margin: 0 auto;
+          border: none;
+          /*border-radius: 24px;*/
+          background-color: rgba(255, 255, 255, 0.9);
+          padding: 0 10px;
+          font-size: 24px;
+          line-height: 24px;
+          outline: none;
+          box-shadow: 0 5px 5px rgba(0,0,0,.3);
+        }
+        #logo {
+          display: block;
+          padding-top: 100px;
+          margin-bottom: 50px;
+          font-size: 100px;
+          line-height: 100px;
+          color: #fff;
+          text-align: center;
+          user-select: none;
+          font-family: fantasy;
         }
     </style>
 </head>
 
-<body class="mdui-theme-primary-indigo mdui-theme-accent-pink">
-    <div id="header" class="mdui-appbar">
-        <div class="mdui-toolbar mdui-color-theme">
-            <a href="/" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down"><i class="mdui-icon material-icons">trending_up</i></a>
-            <a href="javascript:;" class="mdui-typo-title">波段实验室</a>
-            <div class="mdui-toolbar-spacer"></div>
-            <div class="header-search-wrapper sideNav-lock mdui-hidden-md-down">
-                <input id="searchbox" type="text" name="Search" class="header-search-input z-depth-2" placeholder="Search stock" autocomplete="off">
-            </div>
-            <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple" mdui-tooltip="{content:'登录'}" id="loginicon"><i class="mdui-icon material-icons">person_outline</i></a>
-            <a href="/registe.html" target="_self" class="mdui-btn mdui-btn-icon mdui-ripple" mdui-tooltip="{content:'注册'}"><i class="mdui-icon material-icons">person_add</i></a>
-            <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down" mdui-tooltip="{content:'分享'}"><i class="mdui-icon material-icons">share</i></a>
-            <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down" mdui-tooltip="{content:'语言'}"><i class="mdui-icon material-icons">language</i></a>
-            <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-hidden-sm-down" mdui-tooltip="{content:'帮助'}"><i class="mdui-icon material-icons">help</i></a>
-        </div>
+<body>
+  <!-- <div id="bg-div" class=""></div> -->
+    <div id="main" class="">
+      <span id="logo">hirgb</span>
+      <input id="search-input" type="text" name="" value="">
     </div>
-    <div class="mdui-container-fluid">
-        <div class="mdui-row" style="margin: 10px 0 0 10px;padding-left: 15px;">
-            <span>数据更新时间：</span><span id="update-time"></span>
-            <span> - </span><span><a href="/news.html" target="_blank">热点资讯</a></span>
-        </div>
-        <div class="mdui-row">
-            <div class="mdui-col-md-3 mdui-col-sm-6 mdui-col-xs-12">
-                <div class="mdui-card index-card gradient-45deg-light-blue-cyan gradient-shadow white-text">
-                    <div id="shindex" style="height:100%;width:100%"></div>
-                </div>
-            </div>
-            <div class="mdui-col-md-3 mdui-col-sm-6 mdui-col-xs-12">
-                <div class="mdui-card index-card gradient-45deg-red-pink gradient-shadow white-text">
-                    <div id="szindex" style="height:100%;width:100%"></div>
-                </div>
-            </div>
-            <div class="mdui-col-md-3 mdui-col-sm-6 mdui-col-xs-12">
-                <div class="mdui-card index-card gradient-45deg-amber-amber gradient-shadow white-text">
-                    <div id="zxindex" style="height:100%;width:100%"></div>
-                </div>
-            </div>
-            <div class="mdui-col-md-3 mdui-col-sm-6 mdui-col-xs-12">
-                <div class="mdui-card index-card gradient-45deg-green-teal gradient-shadow white-text">
-                    <div id="cyindex" style="height:100%;width:100%"></div>
-                </div>
-            </div>
-        </div>
-        <div class="mdui-row">
-            <div class="mdui-col-md-6 mdui-col-sm-12 mdui-col-xs-12">
-                <div id="fundflow-overview" class="mdui-card indicator-card"></div>
-            </div>
-            <div class="mdui-col-md-6 mdui-col-sm-12 mdui-col-xs-12">
-                <div id="fundflow-industry" class="mdui-card indicator-card"></div>
-            </div>
-        </div>
-        <div class="mdui-row">
-            <div class="mdui-col-md-6 mdui-col-sm-12 mdui-col-xs-12">
-                <div id="fundflow-concept" class="mdui-card indicator-card"></div>
-            </div>
-            <div class="mdui-col-md-6 mdui-col-sm-12 mdui-col-xs-12">
-                <div id="fundflow-area" class="mdui-card indicator-card"></div>
-            </div>
-        </div>
-        <div class="mdui-row">
-            <div class="mdui-col-md-3 mdui-col-sm-6 mdui-col-xs-12">
-                <div id="riseorfall" class="mdui-card indicator-card"></div>
-            </div>
-            <div class="mdui-col-md-3 mdui-col-sm-6 mdui-col-xs-12">
-                <div id="rate" class="mdui-card indicator-card"></div>
-            </div>
-        </div>
-        <div class="mdui-row mdui-dialogui-typo-subheading-opacity" style="text-align:center; padding-top:20px; color:#ccc">
-            本网站数据全部根据互联网内容自动生成，不构成投资建议。由此造成的任何损失，本网站不负任何责任。股市有风险，投资须谨慎。
-        </div>
-    </div>
-    <div class="mdui-dialog" id="loginbox">
-        <div class="mdui-dialog-title">登录</div>
-        <div class="mdui-dialog-content">
-            <form id="login">
-                <div class="mdui-p-a-2" id="login">
-                    <div class="mdui-textfield mdui-textfield-floating-label">
-                        <label class="mdui-textfield-label">用户名</label>
-                        <input id="loginname" name="loginname" type="text" class="mdui-textfield-input" value="" />
-                        <div class="mdui-textfield-error">
-                            用户名不能为空
-                        </div>
-                    </div>
-                    <div class="mdui-textfield mdui-textfield-floating-label">
-                        <label class="mdui-textfield-label">密码</label>
-                        <input id="password" type="password" name="password" class="mdui-textfield-input" value="" />
-                        <div class="mdui-textfield-error">
-                            密码必须6位以上，含大写字母
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <div class="mdui-dialog-actions">
-                <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
-                <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>登录</button>
-            </div>
-        </div>
-    </div>
-    <script src="/js/z.js"></script>
-    <script src="/js/stock.js"></script>
-    <script src="/js/index.js"></script>
-    <script>
-        var $ = mdui.JQ;
-        var loginbox = new mdui.Dialog('#loginbox', {
-            closeOnCancel: true,
-            modal: true
-        });
-        if (!!Z.cookie.get('loginname')) {
-            $('#loginicon i').text('person');
-            $('#loginicon i').parent().attr('mdui-tooltip', '{content:"' + Z.cookie.get('loginname') + ' 已登录"}');
-        }
-        $.ajax({
-            url: '/ajax',
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                action: 'getindexdata'
-            },
-            success: function(respObj) {
-                if (respObj.success) {
-                    let data = JSON.parse(respObj.data);
-                    // console.log(data);
-                    $('#update-time').text(data.date);
-                    loadData(data.dataSH, document.getElementById('shindex'));
-                    loadData(data.dataSZ, document.getElementById('szindex'));
-                    loadData(data.dataZX, document.getElementById('zxindex'));
-                    loadData(data.dataCY, document.getElementById('cyindex'));
-                    loadOverViewData(data.dataOverView, document.getElementById('fundflow-overview'));
-                    loadIndustryData(data.dataIndustry, document.getElementById('fundflow-industry'));
-                    loadConceptData(data.dataConcept, document.getElementById('fundflow-concept'));
-                    loadAreaData(data.dataArea, document.getElementById('fundflow-area'));
-                    loadZdfbData(data.dataZD, document.getElementById('riseorfall'));
-                    loadDppjData(data.dataPJ, document.getElementById('rate'));
-                    Z.check.localStorageSupport() ? localStorage.setItem('indexData', JSON.stringify(data)) : mdui.alert('你的浏览器OUT了。要获得更好的浏览体验，请使用chrome浏览器！');
-                }
-            }
-        });
-        $(document).on('click', '#loginicon', function() {
-            if (!!Z.cookie.get('loginname')) {
-                window.location.href = '/home.html';
-            } else {
-                loginbox.open();
-            }
-        });
-        $(document).on('confirm.mdui.dialog', '#loginbox', function() {
-            if ($('#loginname').val() && $('#password').val()) {
-                $.ajax({
-                    url: '/ajax',
-                    method: 'POST',
-                    action: 'login',
-                    dataType: 'json',
-                    data: {
-                        action: 'login',
-                        loginname: $('#loginname').val(),
-                        password: $('#password').val()
-                    },
-                    success: function(respObj) {
-                        if (respObj.success) {
-                            var data = JSON.parse(respObj.data);
-                            Z.cookie.set('loginname', data.loginname, 365);
-                            Z.cookie.set('token', data.token, 365);
-                            window.location.href = '/home.html';
-                        } else {
-                            $('#loginname').val('');
-                            $('#password').val('');
-                            mdui.alert('登录失败，请重试。');
-                        }
-                    }
-                });
-            }
-        });
-        $('#searchbox').on('keyup', function(event) {
-            if (event.key == "Enter") {
-                stock.transCode($('#searchbox').val()) ? window.open('/detail.html?stockcode=' + stock.transCode($('#searchbox').val())) : mdui.snackbar({
-                    message: '股票代码格式不正确',
-                    position: 'top',
-                    timeout: 2000
-                });;
-            }
-        });
-    </script>
 </body>
 
 </html>
