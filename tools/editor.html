@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>EDITOR</title>
+        <link rel="stylesheet" href="//cdn.bootcss.com/mdui/0.3.0/css/mdui.min.css">
+        <style>
+            body{background: #e6e6e6;}
+            #editor_area{width: 900px;}
+            #editor_title{ background: #e6e6e6; border:1px solid #e6e6e6; color: #000000; font-size: 24px; line-height: 36px; resize: none; width: 200px; outline: none; padding: 0 10px; }
+            #editor_title:focus{ background: #ffffff; border:1px solid #bfbfbf;}
+            #editor_status{ width: 100%; }
+            #editor{ background: #ffffff; border:1px solid #bfbfbf; color: #000000; font-size: 24px; line-height: 40px; resize: none; height: 800px; width: 100%; outline: none; padding: 10px; }
+        </style>
+    </head>
+    <body>
+        <div class="mdui-container">
+            <div class="mdui-row">
+                <select id="doc_select">
+                    <option value="0">Select a document</option>
+                </select>
+            </div>
+            <div class="mdui-row">
+                <div id="editor_area" class="mdui-center">
+                    <span>TITLE:</span>
+                    <input id="editor_title" type="text" />
+                    <span id="editor_status"><span id="editor_save"></span></span>
+                    <textarea id="editor" autofocus></textarea>
+                </div>
+            </div> 
+        </div> 
+        <script src="//cdn.bootcss.com/mdui/0.3.0/js/mdui.min.js"></script>
+        <script src="https://zhangkefei.github.io/tools/js/z.js"></script>
+        <script>
+            var $ = mdui.JQ;
+            var ua = Z.check.ua();
+            var ls = Z.check.localStorageSupport();
+            var contentObj = {};
+
+            var lskeys = Object.keys(window.localStorage);
+            var docSelectObj = document.getElementById('doc_select');
+            for(var i=0; i < lskeys.length; i++){
+                if(lskeys[i].indexOf('zhkf-editor-')!=-1){
+                    var opt = document.createElement('option');
+                    var docTitle = lskeys[i].replace('zhkf-editor-', '');
+                    opt.text = docTitle;
+                    opt.value = docTitle;
+                    docSelectObj.add(opt, null);
+                }
+            }
+            var docSelect = new mdui.Select('#doc_select');
+
+            $('#doc_select').on('closed.mdui.select', function(e){
+                            var docTitle = docSelectObj.options[docSelectObj.selectedIndex].value;
+                            if(contentObj.title && contentObj.title == docTitle){
+                            }else if(docTitle != 0){
+                                contentObj = JSON.parse(window.localStorage.getItem('zhkf-editor-' + docTitle));
+                                $('#editor_title').val(contentObj.title);
+                                $('#editor_save').text('Updated at ' + contentObj.updateTime);
+                                $('#editor').val(contentObj.content);
+                            }
+                        });
+
+            if(ls && !saveItv){
+                var saveItv = setInterval(function(){
+                                if($('#editor_title').val()){
+                                    var t = new Date();
+                                    contentObj.title = $('#editor_title').val();
+                                    contentObj.updateTime = t.toLocaleString();
+                                    contentObj.content = $('#editor').val();
+                                    window.localStorage.setItem('zhkf-editor-'+contentObj.title, JSON.stringify(contentObj));
+                                    $('#editor_save').text('saved at '+contentObj.updateTime);
+                                    console.log(contentObj.title + ' - saved at '+contentObj.updateTime);
+                                }
+                            }, 60*1000);
+            }
+            if(!(ua.mobile || ua.android || ua.iphone || ua.ios || ua.ipad || ua.weixin || ua.ali)){
+                document.body.appendChild(document.createElement('script')).src='https://gitee.com/zhangkefei/wubi/raw/master/wubi_dic.js';
+                document.body.appendChild(document.createElement('script')).src='https://gitee.com/zhangkefei/wubi/raw/master/zhkf_wubi.js';
+            }
+        </script>
+    </body>
+</html>

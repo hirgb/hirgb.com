@@ -31,78 +31,123 @@
             background-position: center;
             /*z-index: 0;*/
         }
+
         #main {
-          width: 800px;
-          height: 100%;
-          margin: 0 auto;
-          border: none;
-          /*z-index: 1;*/
+            width: 800px;
+            height: 100%;
+            margin: 0 auto;
+            border: none;
+            /*z-index: 1;*/
         }
+
         #main:hover {
-          /*background-color: rgba(0,0,0,.5);*/
+            /*background-color: rgba(0,0,0,.5);*/
         }
+
         #search-input {
-          display: block;
-          width: 80%;
-          height: 48px;
-          margin: 0 auto;
-          border: none;
-          /*border-radius: 24px;*/
-          background-color: rgba(255, 255, 255, 0.9);
-          padding: 0 10px;
-          font-size: 24px;
-          line-height: 24px;
-          outline: none;
-          box-shadow: 0 5px 5px rgba(0,0,0,.3);
+            display: block;
+            width: 80%;
+            height: 48px;
+            margin: 0 auto;
+            border: none;
+            /*border-radius: 24px;*/
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 0 10px;
+            font-size: 24px;
+            line-height: 24px;
+            outline: none;
+            box-shadow: 0 5px 5px rgba(0, 0, 0, .3);
         }
+
         #logo {
-          display: block;
-          padding-top: 100px;
-          margin-bottom: 50px;
-          font-size: 100px;
-          line-height: 100px;
-          color: #fff;
-          text-align: center;
-          user-select: none;
-          font-family: fantasy;
+            display: block;
+            padding-top: 100px;
+            margin-bottom: 50px;
+            font-size: 100px;
+            line-height: 100px;
+            color: #fff;
+            text-align: center;
+            user-select: none;
+            font-family: fantasy;
+        }
+
+        .mdui-toolbar {
+            color: rgba(255, 255, 255, .8);
+            background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
+        }
+
+        #setting {
+            background: #fff;
+        }
+
+        .mdui-drawer-close.mdui-drawer-right {
+            transform: translateX(300px);
+        }
+
+        .mdui-drawer {
+            width: 300px;
+        }
+
+        ul.mdui-list {
+          padding-left: 0;
         }
     </style>
 </head>
 
-<body>
-  <!-- <div id="bg-div" class=""></div> -->
+<body class="mdui-drawer-body-right mdui-theme-accent-indigo">
+    <div class="mdui-toolbar">
+        <a href="/wavelab.html" target="_blank">Wavelab</a>
+        <a href="http://themis.hirgb.com/" target="_blank">Themis</a>
+        <a href="/tools/editor.html" target="_blank">Editor</a>
+        <a href="/tools/note.html" target="_blank">S-note</a>
+        <a href="/tools/wubi.html" target="_blank">Wubi</a>
+        <a href="/tools/huaci.html" target="_blank">Huaci</a>
+        <div class="mdui-toolbar-spacer"></div>
+        <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#setting', overlay: true}"><i class="mdui-icon material-icons">menu</i></a>
+    </div>
     <div id="main" class="">
-      <span id="logo">hirgb</span>
-      <input id="search-input" type="text" name="" value="">
+        <span id="logo">hirgb</span>
+        <input id="search-input" type="text" name="" value="">
     </div>
 
+    <div id="setting" class="mdui-drawer mdui-drawer-right mdui-drawer-close mdui-typo">
+        <h2 style="padding-left:16px">设置</h2>
+        <ul class="mdui-list">
+            <li class="mdui-list-item mdui-ripple">
+                <div class="mdui-list-item-content">自动加载五笔</div>
+                <label class="mdui-switch">
+                  <input type="checkbox"/>
+                  <i class="mdui-switch-icon"></i>
+                </label>
+            </li>
+        </ul>
+    </div>
     <script src="//cdn.bootcss.com/mdui/0.3.0/js/mdui.min.js"></script>
     <script>
-      var $ = mdui.JQ;
-      $.ajax({
-        url: '/hirgb',
-        dataType: 'json',
-        method: 'GET',
-        data: {action: 'bgimg'},
-        success: function (data){
-          document.querySelector('body').style.backgroundImage = "url('"+ data.data +"')";
-        }
-      });
+        var $ = mdui.JQ;
+        $.ajax({
+            url: '/hirgb',
+            dataType: 'json',
+            method: 'GET',
+            data: {
+                action: 'bgimg'
+            },
+            success: function(data) {
+                document.querySelector('body').style.backgroundImage = "url('" + data.data + "')";
+            }
+        });
 
-      document.addEventListener('keydown',function(event){
-              if(event.keyCode == 13 && event.ctrlKey){
+        document.addEventListener('keydown', function(event) {
+            if (event.keyCode == 13 && event.ctrlKey) {
                 window.open('http://image.baidu.com/search/index?tn=baiduimage&word=' + document.getElementById('search-input').value);
-              }
-              else if(event.keyCode == 13 && event.altKey){
+            } else if (event.keyCode == 13 && event.altKey) {
                 window.open('https://fanyi.baidu.com/#zh/en/' + document.getElementById('search-input').value);
-              }
-              else if(event.keyCode == 13){
+            } else if (event.keyCode == 13) {
                 window.open('https://www.google.com/search?q=' + document.getElementById('search-input').value);
-              }
-              else if(event.keyCode == 89 && event.ctrlKey){
+            } else if (event.keyCode == 89 && event.ctrlKey) {
                 document.getElementById('search-input').select();
-              }
-          });
+            }
+        });
     </script>
 </body>
 
