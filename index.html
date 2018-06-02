@@ -76,6 +76,10 @@
             background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
         }
 
+        .mdui-toolbar>label {
+            overflow: visible;
+        }
+
         #setting {
             background: #fff;
         }
@@ -89,7 +93,7 @@
         }
 
         ul.mdui-list {
-          padding-left: 0;
+            padding-left: 0;
         }
     </style>
 </head>
@@ -103,6 +107,11 @@
         <a href="/tools/wubi.html" target="_blank">Wubi</a>
         <a href="/tools/huaci.html" target="_blank">Huaci</a>
         <div class="mdui-toolbar-spacer"></div>
+        <label class="mdui-switch">
+          五笔输入法&nbsp;&nbsp;
+          <input id="wubi-btn" type="checkbox"/>
+          <i class="mdui-switch-icon"></i>
+        </label>
         <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#setting', overlay: true}"><i class="mdui-icon material-icons">menu</i></a>
     </div>
     <div id="main" class="">
@@ -114,17 +123,21 @@
         <h2 style="padding-left:16px">设置</h2>
         <ul class="mdui-list">
             <li class="mdui-list-item mdui-ripple">
-                <div class="mdui-list-item-content">自动加载五笔</div>
+                <div class="mdui-list-item-content">自动加载五笔输入法</div>
                 <label class="mdui-switch">
-                  <input type="checkbox"/>
+                  <input id="auto-wubi" type="checkbox"/>
                   <i class="mdui-switch-icon"></i>
                 </label>
             </li>
         </ul>
     </div>
     <script src="//cdn.bootcss.com/mdui/0.3.0/js/mdui.min.js"></script>
+    <script src="/js/z.js" charset="utf-8"></script>
     <script>
         var $ = mdui.JQ;
+        var ua = Z.check.ua();
+        var localstorage = Z.check.localStorageSupport();
+
         $.ajax({
             url: '/hirgb',
             dataType: 'json',
@@ -137,6 +150,12 @@
             }
         });
 
+        if (localstorage && localStorage.getItem('auto-wubi') == '1') {
+            !window.wubi && load_wubi();
+            document.querySelector('#wubi-btn').checked = true;
+            document.querySelector('#auto-wubi').checked = true;
+        }
+
         document.addEventListener('keydown', function(event) {
             if (event.keyCode == 13 && event.ctrlKey) {
                 window.open('http://image.baidu.com/search/index?tn=baiduimage&word=' + document.getElementById('search-input').value);
@@ -148,6 +167,36 @@
                 document.getElementById('search-input').select();
             }
         });
+
+        document.addEventListener('click', function(e) {
+            var t = e.target;
+            if (t.getAttribute('id') == 'wubi-btn' && !(ua.mobile || ua.android || ua.iphone || ua.ios || ua.ipad || ua.weixin || ua.ali)) {
+                if (t.checked) {
+                    window.wubi ? wubi.open() : load_wubi();
+                } else {
+                    wubi.close();
+                }
+            } else if (t.getAttribute('id') == 'auto-wubi' && !(ua.mobile || ua.android || ua.iphone || ua.ios || ua.ipad || ua.weixin || ua.ali)) {
+                if (t.checked) {
+                    document.querySelector('#wubi-btn').checked = true;
+                    !window.wubi && load_wubi();
+                    localStorage.setItem('auto-wubi', '1');
+                } else {
+                    localStorage.setItem('auto-wubi', '0');
+                }
+            }
+        });
+
+        function load_wubi() {
+            var wubi_dic = document.createElement('script');
+            var wubi_js = document.createElement('script');
+            wubi_dic.id = 'wubi_dic';
+            wubi_js.id = 'wubi_js';
+            wubi_dic.src = 'https://gitee.com/zhangkefei/wubi/raw/master/wubi_dic.js';
+            wubi_js.src = 'https://gitee.com/zhangkefei/wubi/raw/master/zhkf_wubi.js';
+            document.body.appendChild(wubi_dic);
+            document.body.appendChild(wubi_js);
+        }
     </script>
 </body>
 
