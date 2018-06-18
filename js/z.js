@@ -1,6 +1,6 @@
 (function() {
     var commen = {
-        VERSION: '0.0.1',
+        version: '0.0.1',
         check: {
             ua: function() {
                 var u = navigator.userAgent;
