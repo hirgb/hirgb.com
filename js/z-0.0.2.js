@@ -363,6 +363,68 @@
                 return fmt;
             }
         },
+        sorter: {
+            bubble: function(arr) {
+                if (arr instanceof Array) {
+                    for (var i = arr.length; i >= 2; --i) {
+                        for (var j = 0; j <= i - 1; ++j) {
+                            if (arr[j] > arr[j + 1]) {
+                                var temp = arr[j];
+                                arr[j] = arr[j + 1];
+                                arr[j + 1] = temp;
+                            }
+                        }
+                    }
+                }
+            },
+            selection: function(arr) {
+                if (arr instanceof Array) {
+                    var len = arr.length,
+                        o,
+                        temp;
+                    for (var i = 0; i < len - 1; i++) {
+                        o = i;
+                        for (var j = i + 1; j < len; j++) {
+                            if (arr[j] < arr[o]) {
+                                o = j;
+                            }
+                        }
+                        temp = arr[i];
+                        arr[i] = arr[o];
+                        arr[o] = temp;
+                    }
+                }
+            },
+            quick: function(arr) {
+                if (arr instanceof Array) {
+                    if (arr.length == 0) {
+                        return [];
+                    }
+                    var lesser = [],
+                        greater = [],
+                        pivot = arr[0];
+                    for (var i = 1; i < arr.length; i++) {
+                        if (arr[i] < pivot) {
+                            lesser.push(arr[i]);
+                        } else {
+                            greater.push(arr[i]);
+                        }
+                    }
+                    return arguments.callee(lesser).concat(pivot, arguments.callee(greater));
+                }
+            },
+        },
+        // 实现原型继承
+        extend: function(sub, sup) {
+            var F = function() {};
+            F.prototype = sup.prototype;
+            sub.prototype = new F();
+            sub.prototype.constructor = sub;
+            sub.uber = sup.prototype;
+            if (sup.prototype.constructor === Object.prototype.constructor) {
+                sup.prototype.constructor = sup;
+            }
+        }
     };
     window.Z = commen;
 }(window));
